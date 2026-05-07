@@ -13,11 +13,34 @@ README.md          # 中文版（默认显示在 GitHub 仓库首页）
 README_en.md       # 英文版
 ```
 
-### 顶部切换条
+### 语言切换：二选一硬规则
+
+**只放一处，不重复。** Hero 区已经有 nav 行（如 `[安装] · [使用] · [English]`），就**不要**再在最顶部加一个 lang badge 切换条——那是冗余信息，浪费首屏纵向空间。
+
+决策表：
+
+| 场景 | 切换条放在 |
+|---|---|
+| Hero nav 行有语言切换链接（M1 默认） | **只放 nav 行**，省略顶部 lang badge |
+| Hero nav 行没有语言切换 / 项目无 nav 行 | 顶部加 lang badge 切换条 |
+| 单语模式（`--zh-only` / `--en-only`） | 都不放，避免链向不存在的文件 |
 
 **关键规则（避免 silent fail）**：
-- 当前语言 badge **不是链接**（点了刷新本页/形成死循环就是 silent fail）
-- 仅切换目标语言 badge 用 `<a>` 包裹
+- 当前语言 badge / 链接**不是链接**（点了刷新本页/形成死循环就是 silent fail）
+- 仅切换目标语言用 `<a>` 包裹
+
+#### 方案 A：nav 行内嵌（推荐，最克制）
+
+中文版：
+```markdown
+[安装](#安装) · [使用](#使用) · [模式](#模式) · [English](README_en.md)
+```
+英文版：
+```markdown
+[Install](#installation) · [Usage](#usage) · [Modes](#modes) · [中文](README.md)
+```
+
+#### 方案 B：顶部 badge 切换条（仅当 nav 不含语言切换时使用）
 
 中文版顶部：
 ```markdown

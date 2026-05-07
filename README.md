@@ -1,9 +1,3 @@
-<p align="center">
-  <a href="README_CN.md"><img alt="中文" src="https://img.shields.io/badge/lang-中文-blue?style=flat-square"></a>
-  &nbsp;
-  <img alt="English (current)" src="https://img.shields.io/badge/lang-English-red?style=flat-square">
-</p>
-
 <div align="center">
 
 # jvs-readme-designer
@@ -22,22 +16,6 @@ Treat your README as a landing page, not a doc dump.
 </div>
 
 ---
-
-```text
-> Rewrite the README for this project.
-
-  Scanning: foo (CLI · Node.js · TypeScript)
-  Recommended archetype: A (Dev tool)
-  Three questions:
-    1. One-line positioning?
-    2. Who installs it, and what job does it do for them?
-    3. After reading, what should they do?
-
-> [you answer the 3 questions]
-
-  17-point anti-pattern self-check: 15 pass, 2 escalated for your call
-  Generated: README.md · README_en.md · docs/readme-image-plan.md
-```
 
 A Claude Code Skill that interviews you, picks an archetype for your project, and generates a product-marketing-grade README — bilingual, with an image task plan.
 

@@ -1,9 +1,3 @@
-<p align="center">
-  <img alt="中文（当前）" src="https://img.shields.io/badge/lang-中文-red?style=flat-square">
-  &nbsp;
-  <a href="README.md"><img alt="English" src="https://img.shields.io/badge/lang-English-blue?style=flat-square"></a>
-</p>
-
 <div align="center">
 
 # jvs-readme-designer
@@ -22,22 +16,6 @@
 </div>
 
 ---
-
-```text
-> 帮我重写这个项目的 README
-
-  扫描项目：foo（CLI · Node.js · TypeScript）
-  推荐 archetype：A（开发者工具型）
-  三个问题：
-    1. 用一句话说你的项目做什么？
-    2. 谁会装它？他们用了能完成什么？
-    3. 读完，你最希望访客做什么？
-
-> [回答 3 个问题]
-
-  反模式自检（17 项）：通过 15、升级 2 项请你判断
-  已生成：README.md · README_en.md · docs/readme-image-plan.md
-```
 
 一个 Claude Code Skill：先访谈你，再为你的项目挑选合适的 archetype，最后生成产品级 README——中英双版 + 配套图片任务清单。
 

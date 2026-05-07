@@ -258,18 +258,14 @@ SCAN → ⛔ INTERVIEW → ⛔ ARCHETYPE → DRAFT → ⛔ REVIEW
 默认 **M1：中文优先双文件**（详见 `references/bilingual-patterns.md`）：
 - `README.md` = 中文版
 - `README_en.md` = 英文版
-- 顶部切换条规则（**重要 silent fail 修复**）：
-  - **当前语言的 badge 不是链接**（避免点了刷新本页的死循环）
-  - 单语模式（`--zh-only` / `--en-only`）**不放切换条**
+- 语言切换**只放一处**（**反冗余硬规则**）：
+  - 优先方案：在 hero nav 行内嵌 `[English](README_en.md)` / `[中文](README.md)`——最克制，不占首屏纵向空间
+  - 仅当项目无 nav 行时，才在文件最顶部加 lang badge 切换条
+  - **禁止同时存在**顶部 lang badge + nav 行语言链接（这是占首屏空间的冗余信息）
+- silent fail 修复：当前语言的链接/badge **不是链接**（避免点了刷新本页的死循环）
+- 单语模式（`--zh-only` / `--en-only`）**不放切换条**
 
-模板示例（中文版顶部）：
-```markdown
-<p align="center">
-  <img alt="中文（当前）" src="https://img.shields.io/badge/lang-中文-red?style=flat-square">
-  &nbsp;
-  <a href="README_en.md"><img alt="English" src="https://img.shields.io/badge/lang-English-blue?style=flat-square"></a>
-</p>
-```
+详细决策表与模板见 `references/bilingual-patterns.md`。
 
 **双语生成对称约束**：
 - 中英版 sections 1:1 对应（不能英文版多 3 节、中文版只有 5 节）
@@ -281,12 +277,17 @@ SCAN → ⛔ INTERVIEW → ⛔ ARCHETYPE → DRAFT → ⛔ REVIEW
 **触发条件**：项目 stars < 100 / 无 logo / 无截图 / 单人维护 / 第一次写 README
 
 **降级策略**：
-- Hero 视觉用**代码块 input/output 对照**或 **ASCII art** 代替 GIF
-  ```
-  $ foo run example.txt
-  ✓ Processed 1.2k tokens
-  ✓ Output saved to result.json
-  ```
+- Hero 视觉用**代码块 input/output 对照**代替 GIF——**严格约束**：
+  - **真实性硬规则**：必须是项目真实可跑的命令 + 真实输出。不准虚构、不准伪装"假装是 CLI 输出"
+  - **行数硬上限**：≤ 6 行（含命令行）。超过 6 行 = 不再是"hero 视觉"，是另一节
+  - **禁止形态**：emoji + 框线流程图、伪装成多阶段 pipeline 的装饰块、"用户回答 / 系统回应"对话模拟、所有非真实交互的"演示"
+  - 标准例子：
+    ```
+    $ foo run example.txt
+    ✓ Processed 1.2k tokens
+    ✓ Output saved to result.json
+    ```
+  - **如果项目根本没有真实简短可演示的命令** → 直接省略 hero 视觉块，不要硬凑。空着也比塞装饰物好
 - Logo 不强求，可省略（保留 H1 即可）
 - Badges 减到 3 枚（license + version + ci）
 - 不渲染 Adopters / Testimonials / Star History / Contributors（条件不满足）
