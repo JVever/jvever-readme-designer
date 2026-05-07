@@ -17,7 +17,9 @@ Treat your README as a landing page, not a doc dump.
 
 ---
 
-A Claude Code Skill that interviews you, picks an archetype for your project, and generates a product-marketing-grade README — bilingual, with an image task plan.
+A skill that scans your project, asks a few targeted questions (or skips them entirely if you prefer all defaults), picks the right README format, and generates a product-marketing-grade bilingual README plus an image task plan.
+
+> Skill is a portable format supported by Claude Code, Cursor, Codex, and other AI editors — install once, use anywhere.
 
 ---
 
@@ -32,7 +34,7 @@ The good ones — Linear, Cursor, Vercel, Supabase, FastGPT, Lobe Chat — treat
 - Trust signals (adopters, testimonials, real numbers, last release date)
 - Structure tuned to the product's archetype, not a one-size-fits-all template
 
-This Skill captures that craft. You answer 3 questions; it picks the right archetype, runs an anti-pattern self-check, and ships bilingual output.
+This Skill captures that craft. It scans your project first, then asks up to 5 targeted questions (you can opt out and accept defaults). Picks the right format, runs an anti-pattern self-check, and ships bilingual output.
 
 ---
 
@@ -56,13 +58,15 @@ Three independent dimensions, freely composable:
 
 | Dimension | Options | Default |
 |---|---|---|
-| **Flow** | `--quick` (3 Qs) / `--full` (7 Qs) / `--rewrite` (preserve gold, fix weak, fill gaps) / `--patch` (gaps only, no interview) | `--quick` |
+| **Flow** | `--quick` (up to 5 targeted questions) / `--full` (deeper, up to 7) / `--rewrite` (preserve gold, fix weak, fill gaps) / `--patch` (gaps only, no interview) | `--quick` |
 | **Output language** | `--bilingual` / `--en-only` / `--zh-only` | `--bilingual` |
 | **Image plan** | `--with-images` / `--no-images` | `--with-images` |
 
+Question count is dynamic, not fixed. At the start of every interview the Skill asks you to pick: answer a few, answer only the critical ones, or skip the interview entirely with all defaults.
+
 ```bash
-/jvs-readme-designer                       # quick + bilingual + with-images
-/jvs-readme-designer --full                # deep interview, 7 questions
+/jvs-readme-designer                       # default: bilingual + image plan + targeted interview
+/jvs-readme-designer --full                # deeper interview
 /jvs-readme-designer --rewrite --en-only   # rewrite existing, English only
 /jvs-readme-designer --patch               # fill gaps only, no interview
 ```
@@ -73,26 +77,39 @@ Persistent overrides → `EXTEND.md` in your project root.
 
 ## Installation
 
-```bash
-# Clone this repo
-git clone <this-repo-url> ~/Code/18-My_Skills/12-jvs-readme-designer
+Simplest path — clone directly into Claude Code's skills folder:
 
-# Symlink the skill into Claude Code's skills directory
-ln -s ~/Code/18-My_Skills/12-jvs-readme-designer/skills/jvs-readme-designer \
-      ~/.claude/skills/jvs-readme-designer
+```bash
+git clone https://github.com/<owner>/jvs-readme-designer.git \
+  ~/.claude/skills/jvs-readme-designer
 
 # Verify
-ls ~/.claude/skills/jvs-readme-designer
+ls ~/.claude/skills/jvs-readme-designer/skills/jvs-readme-designer
 # → SKILL.md  EXTEND.md  _INDEX.md  references/
 ```
 
-Restart Claude Code. The skill auto-loads on next session.
+> Replace `<owner>` with the actual GitHub owner.
+
+If you'd rather keep the repo in your own code directory and symlink it:
+
+```bash
+# Clone wherever you keep your code
+git clone https://github.com/<owner>/jvs-readme-designer.git <your-code-dir>/jvs-readme-designer
+
+# Symlink
+ln -s <your-code-dir>/jvs-readme-designer/skills/jvs-readme-designer \
+      ~/.claude/skills/jvs-readme-designer
+```
+
+Cursor / Codex / other AI editors: see their respective docs for registering `skills/jvs-readme-designer` as a skill.
+
+Restart your editor. The skill auto-loads on next session.
 
 ---
 
 ## Usage
 
-In Claude Code, trigger by saying any of these (English or Chinese):
+In your AI editor, trigger by saying any of these (English or Chinese):
 
 - "Write a marketing-grade README for this project"
 - "Polish my README"
@@ -109,14 +126,14 @@ To trigger explicitly: `/jvs-readme-designer` (with optional flags).
 ## How it works
 
 ```
-SCAN → ⛔ INTERVIEW → ⛔ ARCHETYPE → DRAFT → ⛔ REVIEW
+SCAN → ⛔ INTERVIEW → ⛔ FORMAT PICK → DRAFT → ⛔ REVIEW
 ```
 
 | Stage | What happens |
 |---|---|
 | **SCAN** | Reads project locally (manifests, assets, existing README, LICENSE, CI). **No network calls, no fabricated data.** Reports a "project profile" for confirmation. |
-| **⛔ INTERVIEW** | 3 questions (quick) or 7 (full). Batched via `AskUserQuestion`. Skips questions already answered by SCAN. |
-| **⛔ ARCHETYPE** | Decision tree picks 1 of 5 archetypes; you can override. Section order is proposed concretely (not abstract template). |
+| **⛔ INTERVIEW** | Up to 5 targeted questions; opens with a "answer all / answer only critical / skip with defaults" choice. Skips anything SCAN already answered. |
+| **⛔ FORMAT PICK** | Decision tree picks 1 of 5 README formats; you can override. Section order is proposed concretely (not abstract template). |
 | **DRAFT** | Generates `README.md` + `README_en.md` + `docs/readme-image-plan.md`. Self-check loop runs ≤2 rounds; auto-fixes safe issues. |
 | **⛔ REVIEW** | Shows what was auto-fixed, what was escalated, and subjective decision points (tagline alternatives). Iterates 1–2 rounds on your feedback. |
 
@@ -125,15 +142,15 @@ SCAN → ⛔ INTERVIEW → ⛔ ARCHETYPE → DRAFT → ⛔ REVIEW
 ## Project structure
 
 ```
-12-jvs-readme-designer/
+jvs-readme-designer/
 ├── README.md                          # English (this file)
 ├── README_CN.md                       # 中文
 ├── CHANGELOG.md
 ├── research/
 │   └── synthesis.md                   # 60+ project / site survey, 17 insights
 └── skills/
-    └── jvs-readme-designer/           # The actual Claude Code skill
-        ├── SKILL.md                   # Main entry, 5-stage workflow (404 lines)
+    └── jvs-readme-designer/           # The actual skill
+        ├── SKILL.md                   # Main entry, 5-stage workflow
         ├── EXTEND.md                  # User preferences template
         ├── _INDEX.md
         └── references/
@@ -194,8 +211,8 @@ See [scope-out.md](skills/jvs-readme-designer/references/scope-out.md) for the f
 - **v3** (planned) — Quantitative evals: run the Skill on a fixture set of real open source projects, score outputs against the 17-point checklist programmatically.
 
 Known limitations:
-- The E archetype (endorsement-first) requires real testimonials and **will not fabricate** — by design.
-- SCAN does not call GitHub API (kept local to avoid `hallucinated` star/version numbers); badges that need fresh data use shields.io URLs that resolve at render time.
+- The endorsement-first format requires real testimonials and **will not fabricate** — by design.
+- SCAN does not call GitHub API (kept local to avoid hallucinated star / version numbers); badges that need fresh data use shields.io URLs that resolve at render time.
 
 ---
 

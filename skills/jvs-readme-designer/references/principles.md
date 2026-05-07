@@ -120,15 +120,17 @@ contributing → license
 ### 工程层（避免 silent fail）
 - [ ] **链接活性**：所有外链实际可达（不假托不存在的镜像域名）？
 - [ ] **License 处理**：LICENSE 文件存在 → 链接；不存在 → 写"License: TBD"而非 broken link？
-- [ ] **双语切换条**：当前语言 badge 不是链接？单语模式下整段切换条已删除？
+- [ ] **双语切换条**：当前语言 badge 不是链接？单语模式下整段切换条已删除？切换条**只放一处**（顶部 badge 与 nav 行不重复，详见反模式 14）？
 - [ ] **占位图服务**：使用 `placehold.co`（via.placeholder.com 已停服）？
 - [ ] **adopters 占位符**：未硬编码 stripe/vercel/shopify 等真实公司名？
 - [ ] **占位符语法**：模板内 `{{var}}` 全部已替换，URL 中的占位符已 URL-encode？
+- [ ] **路径卫生**（详见 SKILL.md §4.8 / 反模式 15）：生成的命令/示例**未包含**当前用户的本地家目录、个人代码组织目录（如 `~/Code/18-xx/`）、git 用户名、SSH host alias？所有路径都用通用占位（`~/.claude/skills/<name>` / `<your-code-dir>/<name>`）？
 
 ### 双语层（仅 bilingual 模式）
 - [ ] **本地化**：中文版不是机翻？文案按中文表达习惯重写？
 - [ ] **截图本地化**：中英版是否各自配对应语言的 UI 截图？
 - [ ] **结构对称**：中英版 sections 1:1 对应？
+- [ ] **中英混杂节制**（详见反模式 16）：中文版只在英文是公认缩写/术语（API / CLI / GIF / commit / PR 等）时保留英文；半专业词（archetype / claim / testimonial / before-after / adopter）已翻译为中文？
 
 ### 国内层（仅启用国内元素时）
 - [ ] **群二维码补救**：是否同时给文字补救（微信号/QQ群号）？

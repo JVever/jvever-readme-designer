@@ -1,6 +1,6 @@
 # 反模式 Checklist
 
-14 个常见反模式 + 5 个中文项目特有反模式。每个附修法。生成 README 前 / 生成后必须对照自检。
+16 个常见反模式 + 5 个中文项目特有反模式。每个附修法。生成 README 前 / 生成后必须对照自检。
 
 ---
 
@@ -291,6 +291,79 @@ $ /myproject
   - **方案 A（推荐）**：nav 行内嵌 `[English]` / `[中文]` 链接，**省略**顶部 lang badge 切换条
   - **方案 B**：项目无 nav 行时，才用顶部 lang badge 切换条
 - **禁止两种同时存在**
+
+---
+
+## 反模式 15：在生成的 README 中暴露当前用户的本地路径
+
+**症状**（真实事故，2026-05 出现在 `jvs-readme-designer` 自身的 README 上）：
+
+```bash
+# 安装
+git clone <repo> ~/Code/18-My_Skills/12-jvs-readme-designer
+ln -s ~/Code/18-My_Skills/12-jvs-readme-designer/skills/jvs-readme-designer \
+      ~/.claude/skills/jvs-readme-designer
+```
+
+`~/Code/18-My_Skills/12-jvs-readme-designer` 是**当前 user 自己的本地代码组织习惯**（`18-` 是用户的目录编号方式），但被原样写进了所有读者都会看到的 README。
+
+**问题**：
+- **隐私泄露**：暴露了 user 的目录组织方式、命名习惯，间接暴露 git 用户身份
+- **对其他读者无用**：其他人没有 `~/Code/18-My_Skills/` 这种目录结构，照搬就报错
+- **专业性受损**：读者一眼看出"这个 README 是给作者自己抄命令用的，不是给我看的"
+
+**根因**：Skill 在生成阶段把"作者执行过的真实命令"直接搬进了模板，没有做泛化。
+
+**修法**——SKILL.md §4.8 的强制检查（生成阶段不可跳过）：
+
+| 禁止 | 替换为 |
+|---|---|
+| `/Users/<name>/...`、`/home/<name>/...`、`C:\Users\<name>\...` | `~/...` |
+| `~/Code/18-My_Skills/`、`~/work/MyStuff/` 等含个人组织前缀的路径 | `~/.claude/skills/<name>`（最简）/ `~/projects/<name>`（次选）/ `<your-code-dir>/<name>`（让读者填） |
+| 当前 user 的 git owner、email、SSH host alias | `<owner>`、不出现 |
+
+**禁止的"补救"**：
+- ❌ 在 INTERVIEW 里问用户"你想把项目装到哪"——这把"个人组织习惯"问题转嫁给用户，不解决根本
+- ✅ 直接用通用占位路径，读者自己改
+
+**正例**：
+
+```bash
+git clone https://github.com/<owner>/<repo>.git ~/.claude/skills/<repo>
+```
+
+---
+
+## 反模式 16：中英混杂用了"英文圈也不算常见"的词
+
+**症状**：中文 README 里掺杂英文术语，但这些英文**对中文读者并不熟悉**：
+
+```markdown
+- 5 种 archetype —— A 开发者工具 / B 基础设施 ...
+- 每个 claim 都配证据（GIF / benchmark / 代码 / before-after）
+- 信任信号系统化（adopters / testimonials / 真实数字 / 最近 release）
+- `EXTEND.md` 持久化默认 archetype、双语策略
+```
+
+**问题**：
+- 中英混杂**不是天然不可接受**，前提是英文是"中文圈也熟悉的专有名词或缩写"（如 GIF、API、CLI、PR、commit、release 等）
+- `archetype` / `claim` / `before-after` / `adopters` / `testimonials` 等词中文圈日常不用——读者一边读中文一边查英文，体验割裂
+- 看起来像没翻完的机翻或英文文档随手抄过来
+
+**判断标准**：
+
+| 可保留英文 | 应翻成中文 |
+|---|---|
+| 公认缩写：API / CLI / SDK / GIF / URL / SaaS / SSO / OAuth | 半专业词：archetype（→ 类型）、claim（→ 卖点）、testimonial（→ 用户评价）、adopter（→ 真实用户/采用方）、before-after（→ 前后对比）|
+| 技术术语缩写：HTTP / JSON / SVG / npm / git / commit / PR / branch / repo | 营销/UX 行话：funnel（→ 转化漏斗）、moat（→ 壁垒）、archetype（→ 类型）|
+| 项目名 / 软件名 / 公司名（专有名词原样保留）| 完整可译的名词：bilingual（→ 双语）、benchmark（→ 性能跑分/基准测试）、release（→ 发布）|
+
+**测试**：把英文词单独列出来问"我妈/产品同事认不认识？"——认识就保留，不认识就翻译。
+
+**修法**：
+- 中文版 README 在 DRAFT 阶段过一遍黑名单替换
+- 黑名单维护在 `references/principles.md` 末尾的"中文混杂词替换表"
+- 英文版 README 不受影响（archetype 在英文里仍可用，但 README 描述里更友好的写法是 "format" / "type"）
 
 ---
 

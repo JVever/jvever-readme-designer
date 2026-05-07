@@ -19,7 +19,7 @@ CLAUDE.md V4.0 §2.4 要求每个代码文件有 @input/@output/@rule 头注释�
 ## 文件清单
 
 - `principles.md` — 7 条核心设计原则 + **唯一真理源 checklist**（DRAFT 4.8 自检对照）
-- `interview-questions.md` — 访谈问题（quick 3 问 / full 7 问 / 附加按 SCAN 触发）
+- `interview-questions.md` — 访谈问题池（按需取问，quick 上限 5 / full 上限 7 / 用户可整段跳过）
 - `answer-to-template-map.md` — INTERVIEW 答案 → 模板变量映射表（含命名规范）
 - `archetypes.md` — 5 种 archetype 详解 + 决策器（信号优先级）+ E 型自动触发规则 + 混搭契约
 - `tagline-formulas.md` — 6 种 tagline 套路（中文 ≤30 汉字 / 英文 ≤120 字符）
