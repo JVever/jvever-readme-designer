@@ -24,29 +24,19 @@ Treat your README as a landing page, not a doc dump.
 ---
 
 ```text
-$ /jvs-readme-designer
+> Rewrite the README for this project.
 
-⛔ SCAN  ─────────────────────────────────
-  Project: foo (CLI · Node.js · TypeScript)
-  README:  missing      i18n: —
-  Assets:  logo ✓ screenshot ✗
-  Trust:   LICENSE ✓ CI ✓ CHANGELOG ✗
-  → Recommend: archetype A (Dev tool), --quick, M1 bilingual
+  Scanning: foo (CLI · Node.js · TypeScript)
+  Recommended archetype: A (Dev tool)
+  Three questions:
+    1. One-line positioning?
+    2. Who installs it, and what job does it do for them?
+    3. After reading, what should they do?
 
-⛔ INTERVIEW (3 questions)  ──────────────
-  Q1: One-line positioning?
-  Q2: Who installs it & what job does it do for them?
-  Q3: After reading, what do you want them to do?
+> [you answer the 3 questions]
 
-⛔ ARCHETYPE  ────────────────────────────
-  Picked: A (Dev tool) — section order proposed.
-
-DRAFT  ──────────────────────────────────
-  Hero ✓ What-is ✓ Quick-start ✓ Features ✓
-  Self-check (17 items): 15 pass, 2 escalated.
-
-⛔ REVIEW  ───────────────────────────────
-  README.md, README_en.md, docs/readme-image-plan.md ready.
+  17-point anti-pattern self-check: 15 pass, 2 escalated for your call
+  Generated: README.md · README_en.md · docs/readme-image-plan.md
 ```
 
 A Claude Code Skill that interviews you, picks an archetype for your project, and generates a product-marketing-grade README — bilingual, with an image task plan.

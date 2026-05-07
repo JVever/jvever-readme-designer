@@ -24,29 +24,19 @@
 ---
 
 ```text
-$ /jvs-readme-designer
+> 帮我重写这个项目的 README
 
-⛔ SCAN（项目自动画像）─────────────────
-  名称：foo（CLI · Node.js · TypeScript）
-  README：缺失      i18n：—
-  视觉资产：logo ✓ 截图 ✗
-  Trust signals：LICENSE ✓ CI ✓ CHANGELOG ✗
-  → 推荐：archetype A（开发者工具型）+ --quick + 中文优先双文件
+  扫描项目：foo（CLI · Node.js · TypeScript）
+  推荐 archetype：A（开发者工具型）
+  三个问题：
+    1. 用一句话说你的项目做什么？
+    2. 谁会装它？他们用了能完成什么？
+    3. 读完，你最希望访客做什么？
 
-⛔ INTERVIEW（3 问）────────────────────
-  Q1：用一句话告诉别人你的项目是干什么的？
-  Q2：谁会装它？他们用了能完成什么？
-  Q3：你最希望访客读完后做什么？
+> [回答 3 个问题]
 
-⛔ ARCHETYPE（确认）────────────────────
-  推荐：A（开发者工具型）+ section 排序方案
-
-DRAFT（生成）──────────────────────────
-  Hero ✓ What-is ✓ Quick-start ✓ Features ✓
-  反模式自检（17 项）：通过 15、升级 2。
-
-⛔ REVIEW（人工评审）───────────────────
-  README.md / README_en.md / docs/readme-image-plan.md 已就绪。
+  反模式自检（17 项）：通过 15、升级 2 项请你判断
+  已生成：README.md · README_en.md · docs/readme-image-plan.md
 ```
 
 一个 Claude Code Skill：先访谈你，再为你的项目挑选合适的 archetype，最后生成产品级 README——中英双版 + 配套图片任务清单。
