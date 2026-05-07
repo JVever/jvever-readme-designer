@@ -1,0 +1,284 @@
+# 5 种 README Archetype
+
+每种原型对应不同产品类型，决定 section 顺序和卖点呈现策略。SCAN + INTERVIEW 后，Skill 推荐 1 种，用户可改。
+
+---
+
+## A. 开发者工具型（Developer Tool）
+
+### 适用
+- CLI 工具
+- SDK / 库
+- IDE / 编辑器插件
+- DevTools / 终端
+- 开发者本地用的 GUI 工具
+
+### Hero 套路
+**品类定义型** + 多状态 UI 截图 / asciinema / 代码 diff
+
+文案模板：
+> X is the [新品类 or 老品类升级] for [开发者细分人群], built for [核心价值]
+
+示例：
+- "Linear is the product development system for teams and agents"
+- "Bun is a fast all-in-one JavaScript runtime"
+
+### Section 顺序
+1. Hero（logo + tagline + badges + nav + 1 张 demo GIF / asciinema）
+2. **What is X**（30 字定义）
+3. **Quick start**（一行命令优先）
+4. **Features**（5-8 个，每个带截图/代码片段）
+5. **Why X**（vs alternatives，对比表 or 文字段）
+6. **Adopters / Used by**（如有 logo 墙）
+7. **Testimonials**（如有名人引言）
+8. **Documentation** 外链
+9. **Contributing**
+10. **License**
+
+### 关键武器
+- 代码片段（show, don't tell）
+- before/after diff
+- 名人 testimonial
+- benchmark 数字
+
+### 代表项目
+Cursor / Vercel / Warp / Linear / Bun / Aider / Continue
+
+### 反例
+AutoGPT（首屏先放 System Requirements，焦虑前置）
+
+---
+
+## B. 基础设施 / 平台型（Infrastructure / Platform）
+
+### 适用
+- 数据库 / DBaaS
+- BaaS（Firebase 替代品）
+- 云服务 / 部署平台
+- API gateway / 中间件
+- 监控 / 日志 / Observability
+
+### Hero 套路
+**结果承诺型** + 抽象/动态视觉 + 硬核数字
+
+文案模板：
+> Build [结果] in [时间]. Scale to [量级].
+
+示例：
+- "Supabase: Build in a weekend. Scale to millions."
+- "Vercel: Build and deploy on the AI Cloud."
+
+### Section 顺序
+1. Hero（logo + tagline + 巨型 logo 墙）
+2. **大客户 logo 墙**（紧跟 hero）
+3. **硬核数字带**（uptime / QPS / 处理规模）
+4. **Architecture 图**（嵌入 SVG）
+5. **核心能力 ✅ checkbox 列表**
+6. **Quick start**
+7. **Self-host vs Cloud 决策表**
+8. **Industry use cases**
+9. **Documentation** 外链
+10. **Contributing / License**
+
+### 关键武器
+- 大客户 logo 墙
+- uptime / QPS 数字
+- 架构图
+- ✅ checkbox 能力清单
+- Self-host vs Cloud 对比表
+
+### 代表项目
+Supabase / Stripe / PostHog / Appwrite
+
+### 反例
+README 全是营销话术、没有任何技术细节——基础设施型买家不吃这套。
+
+---
+
+## C. 消费 / 创作者工具型（Consumer / Creator Tool）
+
+### 适用
+- 桌面 app（Tauri / Electron）
+- 视频 / 音频 / 图像 编辑工具
+- 写作 / 笔记 / 白板工具
+- 终端用户（含半技术）使用的应用
+
+### Hero 套路
+**身份共鸣型** + 强视觉（视频 / 大截图）
+
+文案模板：
+> For [某种自我认同 / 人群]
+> Your shortcut to [核心价值]
+
+示例：
+- "Raycast: Your shortcut to everything"
+- "Excalidraw: Virtual whiteboard for sketching hand-drawn like diagrams"
+
+### Section 顺序
+1. Hero（视觉占满首屏）
+2. **Logo 墙**（如有，紧跟 hero）
+3. **功能卡片网格**（10+ 张截图，每个 ≤2 句话）
+4. **用例分人群**（"For Designers / For Teams / For Solo Devs"）
+5. **Download / Install**（多平台并列）
+6. **Pricing / 商业版**（如有）
+7. **Community / Discord / Forum**
+8. **License**
+
+### 关键武器
+- 高密度功能截图（10+ 张）
+- 用例分人群
+- 多平台下载矩阵
+- 用户社区入口
+
+### 代表项目
+Raycast / Notion / Descript / Excalidraw / Folo
+
+### 反例
+只有文字没有截图——消费产品死刑。
+
+---
+
+## D. 新品类教育型（New Category Education）
+
+### 适用
+- LLM agent 框架
+- 全新概念的开源项目
+- 没有同类参照物的"我是什么"型项目
+
+### Hero 套路
+**拟人/隐喻型** + 教育性定义 + 视频 demo
+
+文案模板：
+> Meet [拟人化角色]. [它做什么]
+> Like [熟悉事物] for [新场景].
+
+示例：
+- "Notion: Meet the night shift."
+- "OpenHands: AI agents that work with you, not for you"
+
+### Section 顺序
+1. Hero（拟人定位 + 视频 demo）
+2. **What is X**（详细定义，至少 1 段 + 1 个示意图）
+3. **How it works**（架构图 + 数据流图）
+4. **4-5 个 capability 模块**（每个 1 张图 + 1 段说明）
+5. **Use cases / 试着这样用**
+6. **Quick start**
+7. **Comparison: Why not [现有方案]**
+8. **Community**
+9. **License**
+
+### 关键武器
+- 视频 demo（YouTube / Bilibili 嵌入缩略图）
+- 拟人化叙事
+- 架构图 / 数据流图
+- "Why not X" 段直面对比
+
+### 代表项目
+Claude / OpenHands / AutoGen / LangChain
+
+### 反例
+LobeHub（968 行，TOC 反复折叠，信息密度低）——新品类不是"什么都说"，是"把核心概念说透"。
+
+---
+
+## E. 第三方背书优先型（Endorsement-First）
+
+### 适用
+- 已有强势对手的赛道（如新浏览器 vs Chrome、新 IDE vs VSCode）
+- 项目还小，自夸信服力低，但有早期用户的好评
+- 品牌型 / 社区驱动型项目
+
+### Hero 套路
+**第三方背书型**：用真实用户引言当 H1
+
+文案模板：
+> "[用户原话评价]" — [用户身份]
+
+示例（Arc）：
+> "Arc is the Chrome replacement I've been waiting for."
+> — David Pierce, The Verge
+
+### Section 顺序
+1. Hero（用户原话当 H1 + 产品截图 + Twitter/X 出处）
+2. **More testimonials**（第二屏放更多用户引言）
+3. **Features 截图墙**
+4. **Download**
+5. **Community**
+6. **License**
+
+### 关键武器
+- 用户引言当 H1
+- Testimonials 高密度（10+ 条）
+- 第三方媒体引用
+
+### 代表项目
+Arc / Aider（次代表，用 30+ testimonial 压底）
+
+### 反例
+没有真实用户的项目硬选 E 型 → 假大空，立刻劝退。**E 型有门槛**。
+
+---
+
+## Archetype 决策器（信号优先级）
+
+按优先级从高到低判定，**第一个命中即定**。E 型与其他平级——只要信号强就先选。
+
+```
+┌─ 信号 1：用户 INTERVIEW Q4/Q6 答案中
+│        含强对手名（Chrome / VSCode / Notion / Slack / Webpack 等）
+│        + 提供了真实可验证的 testimonial
+│   → E（第三方背书优先型）
+│   理由：已有强对手时正面叫板风险高，借第三方的嘴更安全
+│
+├─ 信号 2：入口形态 = AI/Model（requirements.txt 含 torch/transformers/langchain/vllm）
+│        OR 用户答案含 "agent / LLM / 全新概念 / 没有同类参照物"
+│   → D（新品类教育型）
+│   可选：借 B 的架构图增强工程性
+│
+├─ 信号 3：入口形态 = 基础设施类
+│        DB / BaaS / 部署平台 / API gateway / 监控 / 自托管平台
+│        OR 用户描述强调"高并发 / 多租户 / 集群 / SLA"
+│   → B（基础设施/平台型）
+│
+├─ 信号 4：入口形态 = Desktop（Tauri/Electron）/ Mobile / 创作者工具
+│        视频/音频/图像/写作/白板/笔记
+│   → C（消费/创作者工具型）
+│
+├─ 信号 5：入口形态 = Web app / SaaS（next/vite/gatsby/nuxt/sveltekit）
+│   ├─ 用户强调 self-host → B
+│   ├─ 用户强调即开即用 + 终端用户 → C
+│   └─ 默认 → C（用户后续可改）
+│
+├─ 信号 6：入口形态 = CLI / SDK / Library / IDE 插件 / DevTool
+│   → A（开发者工具型，默认兜底）
+│
+└─ 信号 7（无 manifest 或全部不命中）：
+   → 询问用户项目类型，或建议走 scope-out（见 scope-out.md）
+```
+
+## E 型的特殊触发规则（自动化）
+
+E 型门槛高（必须有真实可验证的 testimonial）。Skill 应在以下时机主动建议升级到 E：
+
+1. **SCAN 阶段**：现有 README 文本提到 "alternative to X" / "X replacement" / "the next X" 等对标语句
+2. **INTERVIEW Q4**：用户差异化答案出现 Chrome/VSCode/Notion/Slack 等已知大对手名
+3. **INTERVIEW Q6**：用户提供了 ≥2 条带人名+title 的真实 testimonial
+
+满足 1+3 或 2+3 → 自动建议从默认 archetype 切换到 E，让用户决定。
+
+**未达门槛但选 E**：Skill 应警告"E 型需要真实可验证的引言，建议改回 A/C/D"。
+
+## Archetype 混搭
+
+archetype 不是死的。允许"以 A 为主，借 B 的架构图，借 D 的拟人化定位"。
+
+**拼装规则**：
+- 主 archetype 决定 hero 套路 + section 排序
+- 任何 section 模板都来自 `section-library.md`（唯一真理源）
+- Skill 推荐主 archetype 后，**允许用户在 REVIEW 时插入其他 archetype 的 section**
+
+**示例**：A 型项目（CLI）+ 借 D 的 architecture mermaid 段：
+```
+hero（A）→ what is X（A）→ quick start（A）→ features（A）→
+architecture（D, mermaid）→ why X（A）→ adopters（A）→ ...
+```
