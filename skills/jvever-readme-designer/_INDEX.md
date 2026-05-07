@@ -1,4 +1,4 @@
-# jvs-readme-designer
+# jvever-readme-designer
 
 > 像产品官网那样设计 README 的 Skill。本目录结构或子文件职责变化时，必须更新此文件。
 

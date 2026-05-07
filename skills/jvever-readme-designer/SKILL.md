@@ -1,6 +1,6 @@
 ---
-name: jvs-readme-designer
-description: Interview-driven, marketing-grade README designer for code projects (open-source or internal). Treats README as a landing page with hero, archetype-aware sections, trust signals, bilingual output, and an image task plan — not a doc dump. 中文触发：写/重写/重做/重做一遍/美化/设计/双语/中英 README、GitHub 门面、GitHub 项目首页、项目 landing page、开源发布前/项目宣传/项目门面、README 太烂/太朴素/太简陋/没人看/像广告。English triggers：write/rewrite/redesign/polish/beautify/improve/craft README, bilingual or zh+en README, GitHub front page, open-source launch README, project landing page on GitHub, README too plain/no one reads my README. Supports `--quick`（按需 1-5 问，可选直接跳过用默认）和 `--full`（深度访谈最多 7 问），`--rewrite`（保留金句改弱段）和 `--patch`（只补窟窿）。
+name: jvever-readme-designer
+description: Interview-driven, marketing-grade README designer for code projects (open-source or internal). Treats README as a landing page with hero, archetype-aware sections, trust signals, bilingual output, and an image task plan — not a doc dump. 中文触发：写/重写/重做/重做一遍/美化/设计/双语/中英 README、GitHub 门面、GitHub 项目首页、项目 landing page、开源发布前/项目宣传/项目门面、README 太烂/太朴素/太简陋/没人看/像广告。English triggers：write/rewrite/redesign/polish/beautify/improve/craft README, bilingual or zh+en README, GitHub front page, open-source launch README, project landing page on GitHub, README too plain/no one reads my README. 访谈数量动态决定（不固定）：模型基于扫描结果自主评估缺口，用户决定意愿强度。Supports `--quick` / `--full`（同问题池，模型按用户意愿和信息缺口决定问几个），`--rewrite`（保留金句改弱段）和 `--patch`（只补窟窿）。
 ---
 
 <!--
@@ -9,11 +9,11 @@ description: Interview-driven, marketing-grade README designer for code projects
 @rule:     如本文件 @input 或 @output 发生变化，必须更新本注释并检查 _INDEX.md
 -->
 
-# /jvs-readme-designer — 像产品官网那样设计 README
+# /jvever-readme-designer — 像产品官网那样设计 README
 
 把开源项目的 README 当作 **landing page** 而非文档来设计。它的 KPI 是 **conversion**（star、install、第一个 PR），不是 completeness。
 
-> `jvs` 是作者前缀（namespace），用户**不需要输入 jvs 来触发**——通过描述意图即可命中。
+> `jvever` 是作者前缀（namespace），用户**不需要输入 jvever 来触发**——通过描述意图即可命中。
 
 ## 核心信念
 
@@ -31,16 +31,16 @@ description: Interview-driven, marketing-grade README designer for code projects
 
 | 维度 | 选项 | 默认 |
 |---|---|---|
-| **流程** | `--quick`（按项目情况问 1-5 个，可一键跳过用默认） / `--full`（深度访谈最多 7 问） / `--rewrite`（重写已有 README） / `--patch`（只补缺失） | `--quick` |
+| **流程** | `--quick`（默认；模型按缺口和用户意愿动态问） / `--full`（同 quick 但偏向多问；用户选"多答"时启用更广候选池） / `--rewrite`（重写已有 README） / `--patch`（只补缺失） | `--quick` |
 | **输出语言** | `--bilingual`（中英双版） / `--en-only` / `--zh-only` | `--bilingual` |
 | **图片任务清单** | `--with-images` / `--no-images` | `--with-images` |
 
 示例：
 ```
-/jvs-readme-designer                          # quick + bilingual + with-images
-/jvs-readme-designer --full                   # full + bilingual + with-images
-/jvs-readme-designer --rewrite --en-only      # 重写已有，输出仅英文
-/jvs-readme-designer --patch --zh-only        # 仅补丁中文 README
+/jvever-readme-designer                          # quick + bilingual + with-images
+/jvever-readme-designer --full                   # full + bilingual + with-images
+/jvever-readme-designer --rewrite --en-only      # 重写已有，输出仅英文
+/jvever-readme-designer --patch --zh-only        # 仅补丁中文 README
 ```
 
 > **流程维度互斥**（quick / full / rewrite / patch 四选一），其他两维度可与任一流程组合。
@@ -142,68 +142,91 @@ SCAN → ⛔ INTERVIEW → ⛔ ARCHETYPE → DRAFT → ⛔ REVIEW
 - **mirror 仓库**（GitHub 是镜像）：询问主仓库 owner/repo，不要默认填 GitHub 路径
 - **私有仓库**：跳过 shields.io / contrib.rocks / star-history（这些只对公开仓库工作），改用纯文字状态
 
-### 阶段 2：INTERVIEW（按需问、动态裁剪、可整段跳过）
+### 阶段 2：INTERVIEW（信息驱动 / 用户决定意愿、模型决定内容）
 
-读 `references/interview-questions.md`。
+读 `references/interview-questions.md`（候选问题清单，模型按需取，不全问）。
 
-**核心原则——访谈不是固定脚本**：
-- 提问数量根据 SCAN 结果**动态决定**（项目越完整、信号越多 → 问得越少）
-- **硬上限**：`--quick` 模式最多 5 个，`--full` 模式最多 7 个。任何场景下都不能超过 `--full` 上限
-- **硬下限**：0 个——SCAN 已经能完整推断的项目可以直接进入下一阶段
-- 用户随时可以选 "全用默认/跳过"——这是显式提供的选项，不是隐含
+**核心思想——访谈服务于"得到最好结果"，不服务于"按数字配额走流程"**：
+- **没有固定数量**——不是固定 3 个，也不是上限 5 个，而是基于"还有多少关键信息缺失"动态决定
+- **没有硬上限**——但要有 stop condition：信息已足够生成有质量的 README 时停
+- **决策权两层分离**：用户决定"愿意花多少时间答题"（意愿层）；模型决定"在用户给的边界内问什么、问几个"（内容层）
 
-#### 2.1 进入 INTERVIEW 时的开场分流（**必须**）
+#### 2.1 第一步：用户表达意愿强度（**必须**）
 
-每次进入 INTERVIEW 阶段，第一步**必须**先用 AskUserQuestion 让用户从 3 个选项里选一个：
+每次进入 INTERVIEW 阶段，第一步**必须**先用 AskUserQuestion 让用户选择意愿强度：
 
-| 选项 | 行为 |
+| 选项 | 模型行为 |
 |---|---|
-| **答几个关键问题**（默认推荐） | Skill 按 SCAN 决策树选 1-5 个最关键的问题（quick）或 1-7 个（full） |
-| **只答最最关键的 1-2 个** | Skill 只问"一句话定位"+ 必要时"目标用户"，其他全用默认/SCAN 推断 |
-| **全用默认值，直接跳过访谈** | 0 个问题。Skill 用 SCAN 信号 + 项目类型默认值直接生成草稿，所有不确定项标 ⚠️ 让用户在 REVIEW 阶段决定 |
+| **多答几个，结果质量优先** | 模型基于 SCAN 缺口评估，把"显著影响结果质量"的问题都问了 |
+| **只答最关键的几个，省时间** | 模型只问"如果不问就会让结果明显打折"的关键问题 |
+| **全用默认值，直接跳过访谈** | 模型不问任何问题。所有未知字段走默认后备 + REVIEW 阶段以 ⚠️ 标记让用户最终判断 |
 
-不要给用户固定列出 3 / 5 / 7 个问题——这违反"按需问"原则。
+**这一步是用户的"自我授权边界"**——在用户没表达意愿前，模型不能擅自决定问几个。
 
-#### 2.2 问题池（按优先级，命中即问，未命中即跳过）
+#### 2.2 模型的"信息缺口评估"循环（决定问什么、问几个）
 
-按以下优先级取问题，最多取够 quick 模式 5 个 / full 模式 7 个：
+每轮访谈，模型按以下闭环工作：
 
-**P0（核心，几乎所有项目都会问）**：
-1. **一句话定位**：你的项目用一句话告诉别人是干什么的？
-2. **目标用户 + 核心目的**：谁会装它？他们用了能做什么？避免什么痛？
+```
+1. 当前已知 = SCAN 产物 + 用户已回答 + EXTEND.md 默认值
+2. 当前缺口 = 还有哪些信息缺失会让生成的 README 质量明显打折？
+3. 缺口排序 = 按"对结果质量的影响 × 答题成本"排序
+4. 决策：
+   - 缺口都已被默认值或 SCAN 推断兜底 → 不问，进入下一阶段
+   - 用户选"只答最关键" → 只问 top 1-2 个高影响低成本的
+   - 用户选"多答几个" → 把所有"显著影响"的都问了
+   - 用户选"全跳过" → 0 个问题，所有缺口走默认
+5. 用户答完 → 回到 1，重新评估
+```
 
-**P1（条件触发，命中才问）**：
-3. **主路径行动**：你最希望访客读完后做什么？（仅当 SCAN 无法从项目类型推断默认行动时）
-4. **差异化**：vs 1-2 个竞品（仅当用户在前面提到"类似 X"或现有 README 含"alternative to X"）
-5. **典型使用场景** 2-3 个（仅当 P0 答案抽象，无具体场景）
+**信息缺口的判断维度**——一个问题"显著影响结果质量"通常意味着：
+- 缺了它，生成的某个章节会写不出来或写错（如缺"目标用户"，feature 段会把所有人当用户写）
+- 缺了它，类型选择会偏（如缺"是否有大客户"，无法决定是否走第三方背书型）
+- 缺了它，章节排序会偏（如缺"是否有 demo"，决定 hero 后第二屏放什么）
 
-**P2（补强，仅 `--full` 模式启用）**：
-6. **信任锚**：大客户 / 真实推荐 / 性能数据 / 用户量
-7. **双语策略 + 国内特有元素**（按 SCAN 检测中文优先时）
+**判断"非必要"的信号**——这种问题不应该问：
+- 用户可以靠默认值过、章节不渲染、按项目类型推断，结果差距不明显
+- 答案对最终输出影响 < 1 段文字
+- 主观偏好性问题（emoji 风格、颜色等）→ 这些归 EXTEND.md，不在 INTERVIEW 阶段问
 
-**条件附加问（与上面池子合并计数，不另算）**：
-- 检测到中文项目 → 国内元素问题归为 7
-- 检测到 Cloud/Enterprise 文件夹 → 询问商业版描述（替换 P1 中的某一题）
-- 检测到现有 README > 200 行 → 询问是 `--rewrite` 还是 `--patch`（这是流程问题，**应在阶段 1 SCAN 末尾就问**，不占 INTERVIEW 配额）
+#### 2.3 候选问题清单
 
-#### 2.3 提问规范
+完整候选见 [`references/interview-questions.md`](references/interview-questions.md)。
 
-- **批量提问**：用 AskUserQuestion 一次性问完所有命中的问题，不要逐个对话式来回
-- AskUserQuestion 不可用时，在 chat 中按编号列出，让用户一条回复回答多个
-- 每问标 type：`single-select` / `multi-select` / `free-text` / `inspiration`
-- 每个 single/multi-select 问题**必须提供"全用默认"选项**——用户随时可以中途让 Skill 跳过剩余
-- 用户答案 → 模板变量映射见 `references/answer-to-template-map.md`
+模型从中按 §2.2 的评估闭环挑选，不固定取哪几个。常见高优先级候选：
 
-#### 2.4 默认值后备（用户跳过访谈或某题时如何兜底）
+- **一句话定位** — 几乎所有项目都缺这个核心信号
+- **目标用户 + 核心目的** — 决定 feature 段视角和 tagline 套路
+- **主路径行动** — 决定 CTA 文案
+- **差异化** — 仅当用户/现有 README 提到"类似 X"
+- **典型使用场景** — 仅当上面答案抽象、缺具体落地
+- **信任锚（大客户/真实推荐/性能数字）** — 仅当用户表达想多答 + 项目实际可能有
+- **双语 + 国内特有元素** — 仅当 SCAN 检测到中文项目
 
-当用户选"全用默认"或具体某题没答：
-- 一句话定位 → 用项目目录名 + 自动从 manifest description 抽取
-- 目标用户 → 按项目类型默认（CLI 工具 → "需要 X 的开发者"；SaaS → "需要 X 的团队"）
-- 主路径行动 → 按项目类型默认（CLI → install；SaaS → try demo / sign up；library → npm install + 第一个 example）
-- 差异化 → 留空，章节不渲染
-- 信任锚 → 留空，章节不渲染（条件渲染规则会自动跳过）
+> 注：用户在 SCAN 末尾可能被问"现有 README > 200 行 → `--rewrite` 还是 `--patch`"——这是**流程问题**，发生在阶段 1 末尾，不占 INTERVIEW 评估循环。
 
-**所有走默认值的字段在 REVIEW 阶段必须高亮**（用 ⚠️ 标），让用户决定是否定稿。
+#### 2.4 提问规范
+
+- **批量提问**：模型决定要问 N 个之后，用 AskUserQuestion 一次性发出，不要逐个对话式来回
+- AskUserQuestion 不可用 → 在 chat 中按编号列出，一条回复答多个
+- 每个 single/multi-select 问题**必须含"全用默认 / 不知道"选项**——用户中途可以让模型跳过剩余
+- 用户答完每批后，模型重新跑 §2.2 评估闭环，决定"还需要继续问"还是"已经够"
+- 已被 SCAN 推断或 EXTEND.md 设了默认的字段**不再问**
+
+#### 2.5 默认值后备
+
+当某字段没问（用户选跳过、或模型评估为非必要）时的兜底：
+
+| 字段 | 兜底来源 |
+|---|---|
+| 一句话定位 | 项目目录名 + manifest description |
+| 目标用户 | 按项目类型推断（CLI → 需要 X 的开发者；SaaS → 需要 X 的团队；library → 构建 Y 的工程师） |
+| 主路径行动 | 按项目类型推断（CLI → install；SaaS → try demo；library → 第一个 example） |
+| 差异化 | 留空 → 章节不渲染 |
+| 信任锚 | 留空 → 条件渲染规则自动跳过对应 section（详见原则 5） |
+| 双语策略 | M1 中文优先（按 EXTEND.md 默认） |
+
+**所有走默认值的字段在 REVIEW 阶段必须高亮**（用 ⚠️ 标），让用户决定是否接受默认或修正。
 
 ### 阶段 3：ARCHETYPE（自动决策 + 用户确认）
 
@@ -337,50 +360,31 @@ SCAN → ⛔ INTERVIEW → ⛔ ARCHETYPE → DRAFT → ⛔ REVIEW
 - 占位符在 README 中用 placeholder 服务：**统一用 `https://placehold.co/`**（via.placeholder.com 已停服，禁用）
 - 自动生成的（mermaid / star-history / contrib.rocks）直接给方案，不让用户做
 
-#### 4.8 输出卫生（生成阶段强制检查，**不可跳过**）
+#### 4.8 DRAFT 自检（两层：先机械、后主观）
 
-生成的 README 是给**所有读者**看的，不是给当前用户看的。任何**与当前 user 个人相关**的本地信息都禁止出现在生成内容中。
+DRAFT 完成后必须跑两层自检，**全部通过**才能进入 REVIEW。
 
-**强制黑名单——绝对禁止出现在生成的 README / 模板 / 示例中**：
+**第一层：机械检测（强制，不可跳过）** — 见 [`references/auto-checks.md`](references/auto-checks.md)
 
-| 禁止内容 | 例子 | 替换为 |
-|---|---|---|
-| 真实 home 目录名 | `/Users/jvever/...`、`/home/alice/...`、`C:\Users\bob\...` | `~/...` 或更通用的占位 |
-| 当前用户的个人代码目录名 | `~/Code/18-My_Skills/`、`~/work/`、`~/Projects/MyStuff/` | `<your-code-dir>/`、`~/projects/` 这类**通用、读者也能识别**的路径 |
-| 当前 git 用户名 / email | `git config user.name`、`user.email` | 不出现，或用 `<your-name>` |
-| 当前机器/SSH 配置细节 | hostname、私有 SSH host alias | 不出现 |
-| 当前用户的 GitHub owner（除非项目本身的 owner） | 用户的私人 fork URL | 用 `<owner>/<repo>` 或项目实际 owner |
+涵盖：路径泄露 / License 链接 / 占位图服务 / 占位符未替换 / 装饰 ASCII 超长 / 标题 emoji / 中英混杂黑名单 / 双语切换条规则 / 模式一致性 等。
 
-**生成阶段的强制检查**：
-- DRAFT 完成后、进入反模式自检前，先用正则扫描所有生成文件：
-  - `/Users/[^/]+/`、`/home/[^/]+/`、`C:\\Users\\[^\\]+\\`
-  - `~/[A-Z][a-zA-Z]*/[0-9]+-` 这类带数字前缀目录的形态（典型个人代码目录组织）
-- 命中任一项 → **不进入 REVIEW，自动回到 DRAFT 修复**
-- 修复策略：
-  - 安装/克隆命令：`~/.claude/skills/<name>` 或 `~/projects/<name>` 或 `<your-code-dir>/<name>`
-  - 任何路径里出现"看起来像个人组织习惯"的目录名（如 `18-xxx`、`my_*`、`work/`）→ 删除该层，给最简通用路径
+每项都有明确 regex 或字符串模式 → 命中 = 失败 → 自动修或阻断进入 REVIEW。
 
-**问"用户想把项目放哪"是反模式**——不要在 INTERVIEW 阶段问安装路径。安装路径只能用通用占位符（`~/.claude/skills/...` 或 `<your-code-dir>/...`），不要"为了准确"去问用户。
+**第二层：主观原则自检** — 见 [`references/principles.md`](references/principles.md) 5 条原则
 
-**例外**：项目自身的目录结构展示（如"项目结构"那段）只能用项目仓库相对名（`jvs-readme-designer/`），**禁止**用用户本地的绝对/家目录路径。
+| 原则 | 自检问 |
+|---|---|
+| 1. 首屏定生死 | Hero 区 5 秒能答清三问吗？没有装饰物喧宾夺主吗？ |
+| 2. 基于 Job 而非 feature 列表 | 写的是用户 job/痛点，还是 feature dump？倒金字塔顺序对吗？ |
+| 3. Show, don't tell | 每个 claim 配证据了吗？形容词都兜底了吗？ |
+| 4. 克制即专业 | 每个元素能回答"删了读者损失什么"吗？冗余/装饰/低频英文有吗？ |
+| 5. 信任信号 + 鲜活 | 信号有 ≥3 个吗？没用条件渲染过滤吗？命令鲜活吗？ |
 
-#### 4.9 反模式自检（自动循环 ≤2 轮）
+**分流**：
+- 自动可修（emoji 满天飞、多余 div、装饰 ASCII、低频英文）→ 直接修，记入"已自动修复"
+- 主观判断（tagline 是否够吸引、章节顺序、内容选择）→ 升级到 REVIEW，列选项让用户决定
 
-生成草稿后，对照 `references/anti-patterns.md` 跑 checklist。
-
-**自动可修类**（直接修，不打扰用户）：
-- emoji 滥用（标题里的 emoji 删掉，feature bullet 前缀保留）
-- HTML 滥用（删多余的 `<div>` 包裹）
-- 占位符语法错（统一 `{{var}}`）
-- 链接格式错
-- License broken link（改成 "License: TBD"）
-
-**必须升级到 REVIEW 类**（在自检报告里列出，让用户决定）：
-- 形容词堆砌但 INTERVIEW 没拿到证据 → 标 ⚠️ "缺证据"
-- Stale 命令（无法判断）→ 标 ⚠️ "请人工确认"
-- Tagline 不够吸引人（主观）→ 列 2 个 alternative 让用户选
-
-**循环上限**：自动循环 ≤ 2 轮；2 轮后剩余问题强制升级到 REVIEW。
+**循环上限**：自动修循环 ≤ 2 轮；2 轮后剩余强制升级 REVIEW。
 
 ### 阶段 5：⛔ REVIEW（人工 review + 迭代）
 
@@ -399,7 +403,7 @@ SCAN → ⛔ INTERVIEW → ⛔ ARCHETYPE → DRAFT → ⛔ REVIEW
 
 最后输出 reminder：
 
-> 已生成 README 与图片任务清单。建议下次 release 跑 `/jvs-readme-designer --rewrite` 保持鲜活——README 是活的产品页，半年不更新会显死。
+> 已生成 README 与图片任务清单。建议下次 release 跑 `/jvever-readme-designer --rewrite` 保持鲜活——README 是活的产品页，半年不更新会显死。
 
 ---
 
@@ -439,16 +443,21 @@ SCAN → ⛔ INTERVIEW → ⛔ ARCHETYPE → DRAFT → ⛔ REVIEW
 ## 引用资源
 
 `references/` 目录：
-- `principles.md` — 7 条核心设计原则（自检 checklist 的 single source of truth）
-- `interview-questions.md` — 访谈问题（quick / full / 附加）
+
+**核心信仰层**：
+- `principles.md` — **5 条核心原则**（所有主观设计判断的唯一来源）
+- `auto-checks.md` — **机械检测清单**（DRAFT 阶段强制运行的 lint）
+- `anti-patterns.md` — 重定向薄壳（v3 已分流到上面两份；保留为历史链接兼容）
+
+**执行层**：
+- `interview-questions.md` — 候选问题清单（模型按需取，不全问）
 - `answer-to-template-map.md` — INTERVIEW 答案 → 模板变量映射表
 - `archetypes.md` — 5 种 archetype 详解 + 决策树
 - `tagline-formulas.md` — 6 种 tagline 套路
 - `section-library.md` — section 模板库（**唯一真理源**）
-- `trust-signals.md` — 14 种信任信号 + 模板
+- `trust-signals.md` — 14 种信任信号 + 模板（含条件渲染规则）
 - `bilingual-patterns.md` — 4 种双语模式
 - `image-plan.md` — 图片任务清单生成规则
-- `anti-patterns.md` — 反模式 checklist
 - `domestic-elements.md` — 中文社区特有元素
 - `scope-out.md` — 不该用本 Skill 的场景
 - `templates/` — 5 种 archetype 骨架（中英双版）

@@ -9,7 +9,7 @@ Skill 输出 `docs/readme-image-plan.md` 给用户，列出 README 中所有需�
 ```markdown
 # README 图片任务清单
 
-> 这是 jvs-readme-designer 为你的 README 生成的图片占位符清单。
+> 这是 jvever-readme-designer 为你的 README 生成的图片占位符清单。
 > 完成后请把图片放到 `assets/` 目录，并删除 README 中的占位 HTML 注释。
 
 ## 必需

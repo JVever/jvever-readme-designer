@@ -1,6 +1,6 @@
 <div align="center">
 
-# jvs-readme-designer
+# jvever-readme-designer
 
 **Interview-driven, marketing-grade README designer for code projects.**
 
@@ -17,7 +17,7 @@ Treat your README as a landing page, not a doc dump.
 
 ---
 
-A skill that scans your project, asks a few targeted questions (or skips them entirely if you prefer all defaults), picks the right README format, and generates a product-marketing-grade bilingual README plus an image task plan.
+A skill that scans your project, lets you choose how much time you want to spend answering (more / only the critical few / skip with all defaults), and lets the model decide *what* to ask and *how many* based on the information gaps it sees. No fixed quota. Final output: a product-marketing-grade bilingual README plus an image task plan.
 
 > Skill is a portable format supported by Claude Code, Cursor, Codex, and other AI editors — install once, use anywhere.
 
@@ -34,7 +34,7 @@ The good ones — Linear, Cursor, Vercel, Supabase, FastGPT, Lobe Chat — treat
 - Trust signals (adopters, testimonials, real numbers, last release date)
 - Structure tuned to the product's archetype, not a one-size-fits-all template
 
-This Skill captures that craft. It scans your project first, then asks up to 5 targeted questions (you can opt out and accept defaults). Picks the right format, runs an anti-pattern self-check, and ships bilingual output.
+This Skill captures that craft. It scans your project first, lets you set the interview depth, then asks only what it actually needs based on detected gaps. Picks the right format, runs a two-layer self-check (mechanical lint + 5 positive principles), and ships bilingual output.
 
 ---
 
@@ -42,7 +42,7 @@ This Skill captures that craft. It scans your project first, then asks up to 5 t
 
 - **5 archetypes** — A Dev tool / B Infrastructure / C Consumer tool / D New-category / E Endorsement-first. Auto-decision tree based on SCAN + interview signals.
 - **6 tagline formulas** — Category-defining, outcome-promise, identity-resonance, third-party endorsement, metaphor, hard-numbers.
-- **17-point self-check** — Single source of truth in `references/principles.md`. Runs automatically before showing the draft. Auto-fixes safe issues; escalates judgment calls.
+- **5 positive principles + mechanical lint, separated** — Subjective judgment lives in [`principles.md`](skills/jvever-readme-designer/references/principles.md) (5 principles, each with anchor anti-examples). Mechanical checks (path leakage, broken links, placeholder leftovers, mixed-language blacklist, etc.) live in [`auto-checks.md`](skills/jvever-readme-designer/references/auto-checks.md). Both run before draft is shown.
 - **Bilingual by default** — Chinese-first (M1: `README.md` + `README_en.md`) with proper i18n switching (current-language badge is not a link → no silent fail).
 - **Image task plan** — Separate `docs/readme-image-plan.md` with priority, dimensions, and how-to-make guidance. Auto-generated assets (Star History, contributors, mermaid) skip the plan.
 - **Conditional trust signals** — Star History only renders ≥1k stars, contributors wall only ≥10 authors, adopters only when user provides real names. No "displaying poor" with 50-star projects.
@@ -58,17 +58,17 @@ Three independent dimensions, freely composable:
 
 | Dimension | Options | Default |
 |---|---|---|
-| **Flow** | `--quick` (up to 5 targeted questions) / `--full` (deeper, up to 7) / `--rewrite` (preserve gold, fix weak, fill gaps) / `--patch` (gaps only, no interview) | `--quick` |
+| **Flow** | `--quick` (default; model decides count from gaps + your willingness) / `--full` (broader candidate pool, leans toward asking more) / `--rewrite` (preserve gold, fix weak, fill gaps) / `--patch` (gaps only, no interview) | `--quick` |
 | **Output language** | `--bilingual` / `--en-only` / `--zh-only` | `--bilingual` |
 | **Image plan** | `--with-images` / `--no-images` | `--with-images` |
 
-Question count is dynamic, not fixed. At the start of every interview the Skill asks you to pick: answer a few, answer only the critical ones, or skip the interview entirely with all defaults.
+Question count is **not fixed and has no hard cap**. At the start of every interview you choose your willingness — answer more, answer only the critical, or skip with all defaults. Within that boundary, the model evaluates "what missing information would meaningfully degrade the result" and asks only those.
 
 ```bash
-/jvs-readme-designer                       # default: bilingual + image plan + targeted interview
-/jvs-readme-designer --full                # deeper interview
-/jvs-readme-designer --rewrite --en-only   # rewrite existing, English only
-/jvs-readme-designer --patch               # fill gaps only, no interview
+/jvever-readme-designer                       # default: bilingual + image plan + targeted interview
+/jvever-readme-designer --full                # deeper interview
+/jvever-readme-designer --rewrite --en-only   # rewrite existing, English only
+/jvever-readme-designer --patch               # fill gaps only, no interview
 ```
 
 Persistent overrides → `EXTEND.md` in your project root.
@@ -80,11 +80,11 @@ Persistent overrides → `EXTEND.md` in your project root.
 Simplest path — clone directly into Claude Code's skills folder:
 
 ```bash
-git clone https://github.com/<owner>/jvs-readme-designer.git \
-  ~/.claude/skills/jvs-readme-designer
+git clone https://github.com/<owner>/jvever-readme-designer.git \
+  ~/.claude/skills/jvever-readme-designer
 
 # Verify
-ls ~/.claude/skills/jvs-readme-designer/skills/jvs-readme-designer
+ls ~/.claude/skills/jvever-readme-designer/skills/jvever-readme-designer
 # → SKILL.md  EXTEND.md  _INDEX.md  references/
 ```
 
@@ -94,14 +94,14 @@ If you'd rather keep the repo in your own code directory and symlink it:
 
 ```bash
 # Clone wherever you keep your code
-git clone https://github.com/<owner>/jvs-readme-designer.git <your-code-dir>/jvs-readme-designer
+git clone https://github.com/<owner>/jvever-readme-designer.git <your-code-dir>/jvever-readme-designer
 
 # Symlink
-ln -s <your-code-dir>/jvs-readme-designer/skills/jvs-readme-designer \
-      ~/.claude/skills/jvs-readme-designer
+ln -s <your-code-dir>/jvever-readme-designer/skills/jvever-readme-designer \
+      ~/.claude/skills/jvever-readme-designer
 ```
 
-Cursor / Codex / other AI editors: see their respective docs for registering `skills/jvs-readme-designer` as a skill.
+Cursor / Codex / other AI editors: see their respective docs for registering `skills/jvever-readme-designer` as a skill.
 
 Restart your editor. The skill auto-loads on next session.
 
@@ -119,7 +119,7 @@ In your AI editor, trigger by saying any of these (English or Chinese):
 
 The Skill auto-engages and walks you through 5 stages, pausing at each ⛔ for your confirmation.
 
-To trigger explicitly: `/jvs-readme-designer` (with optional flags).
+To trigger explicitly: `/jvever-readme-designer` (with optional flags).
 
 ---
 
@@ -132,7 +132,7 @@ SCAN → ⛔ INTERVIEW → ⛔ FORMAT PICK → DRAFT → ⛔ REVIEW
 | Stage | What happens |
 |---|---|
 | **SCAN** | Reads project locally (manifests, assets, existing README, LICENSE, CI). **No network calls, no fabricated data.** Reports a "project profile" for confirmation. |
-| **⛔ INTERVIEW** | Up to 5 targeted questions; opens with a "answer all / answer only critical / skip with defaults" choice. Skips anything SCAN already answered. |
+| **⛔ INTERVIEW** | Opens with a willingness choice (more / only critical / skip with defaults). Within that boundary, the model picks what to ask and how many based on detected information gaps — **no fixed count**. Skips anything SCAN already answered. |
 | **⛔ FORMAT PICK** | Decision tree picks 1 of 5 README formats; you can override. Section order is proposed concretely (not abstract template). |
 | **DRAFT** | Generates `README.md` + `README_en.md` + `docs/readme-image-plan.md`. Self-check loop runs ≤2 rounds; auto-fixes safe issues. |
 | **⛔ REVIEW** | Shows what was auto-fixed, what was escalated, and subjective decision points (tagline alternatives). Iterates 1–2 rounds on your feedback. |
@@ -142,19 +142,20 @@ SCAN → ⛔ INTERVIEW → ⛔ FORMAT PICK → DRAFT → ⛔ REVIEW
 ## Project structure
 
 ```
-jvs-readme-designer/
+jvever-readme-designer/
 ├── README.md                          # English (this file)
 ├── README_CN.md                       # 中文
 ├── CHANGELOG.md
 ├── research/
 │   └── synthesis.md                   # 60+ project / site survey, 17 insights
 └── skills/
-    └── jvs-readme-designer/           # The actual skill
+    └── jvever-readme-designer/           # The actual skill
         ├── SKILL.md                   # Main entry, 5-stage workflow
         ├── EXTEND.md                  # User preferences template
         ├── _INDEX.md
         └── references/
-            ├── principles.md          # 7 core principles + single-source checklist
+            ├── principles.md          # 5 core principles (single source for subjective design)
+            ├── auto-checks.md         # Mechanical lint (mandatory, runs in DRAFT)
             ├── interview-questions.md
             ├── answer-to-template-map.md
             ├── archetypes.md          # 5 archetypes + decision tree
@@ -196,7 +197,7 @@ Key design influences:
 
 ## When NOT to use
 
-See [scope-out.md](skills/jvs-readme-designer/references/scope-out.md) for the full list. Quick check:
+See [scope-out.md](skills/jvever-readme-designer/references/scope-out.md) for the full list. Quick check:
 
 - Single-line edits → just edit, don't run a 5-stage workflow
 - Pure dotfiles / awesome-list / non-software repos → use plain markdown
@@ -208,7 +209,8 @@ See [scope-out.md](skills/jvs-readme-designer/references/scope-out.md) for the f
 ## Status & roadmap
 
 - **v2.1** (current) — Production-ready. Passed 4-reviewer audit + verification round.
-- **v3** (planned) — Quantitative evals: run the Skill on a fixture set of real open source projects, score outputs against the 17-point checklist programmatically.
+- **v3.0** (current, 2026-05-07) — Architectural refactor: rename `jvs` → `jvever`; design philosophy shift from anti-pattern-driven to principle-driven (5 principles + mechanical lint); interview shifts from quota-driven to information-gap-driven (no fixed count, no hard cap).
+- **v4** (planned) — Quantitative evals: run the Skill on a fixture set of real open source projects, score outputs against principles + auto-checks programmatically.
 
 Known limitations:
 - The endorsement-first format requires real testimonials and **will not fabricate** — by design.
@@ -218,4 +220,4 @@ Known limitations:
 
 ## License
 
-[MIT](LICENSE) © 2026 jvs
+[MIT](LICENSE) © 2026 jvever

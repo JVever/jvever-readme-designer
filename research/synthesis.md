@@ -1,4 +1,4 @@
-# jvs-readme-designer 调研汇总
+# jvever-readme-designer 调研汇总
 
 > 5 路并行 Agent 调研结果的综合提炼，作为 Skill 设计的依据。
 
