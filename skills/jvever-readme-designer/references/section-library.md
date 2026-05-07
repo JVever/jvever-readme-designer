@@ -1,6 +1,8 @@
 # Section 模板库
 
-每个 section 给中英双版骨架。生成时按 archetype 选用。
+**唯一真理源**——所有 archetype 拼装时都从这里取 section 模板。
+
+每个 section 给中英双版骨架。生成时按 archetype 选用，按条件渲染规则决定是否出现。
 
 ---
 
@@ -259,43 +261,106 @@ flowchart LR
 
 ---
 
-## §8 Adopters / Used by（如有）
+## §8 Adopters / Used by（条件渲染：用户提供 ≥3 个真实 adopters 才出）
+
+> **真实性硬规则**：占位符必须用 `{{adopter_n_*}}` 变量；**不要写 stripe / vercel / shopify 这类真实公司名**——一旦不替换会变成"我们的客户是 Stripe"的伪信号。如果用户没有真实 adopters，**整段不渲染**。
 
 ```markdown
 ## 谁在用
 
 <p align="center">
-  <a href="https://example.com"><img src="assets/adopter-1.svg" height="40"></a>
-  &nbsp;&nbsp;&nbsp;
-  <a href="https://example.com"><img src="assets/adopter-2.svg" height="40"></a>
-  ...
+  <a href="{{adopter_1_url}}" target="_blank"><img src="assets/adopters/{{adopter_1_slug}}.svg" height="40" alt="{{adopter_1_name}}"></a>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="{{adopter_2_url}}" target="_blank"><img src="assets/adopters/{{adopter_2_slug}}.svg" height="40" alt="{{adopter_2_name}}"></a>
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <a href="{{adopter_3_url}}" target="_blank"><img src="assets/adopters/{{adopter_3_slug}}.svg" height="40" alt="{{adopter_3_name}}"></a>
 </p>
 
-更多见 [ADOPTERS.md](ADOPTERS.md)。
-
-> 在用 {{project}}？欢迎 [PR 添加你的 logo](https://github.com/...)。
+> 完整名单见 [ADOPTERS.md](ADOPTERS.md)。在用 {{project}}？欢迎 [PR 添加你的 logo]({{adopters_pr_url}})。
 ```
+
+**约束**：
+- 真实存在 + 已获用户授权
+- SVG 优先（缩放清晰）
+- 高度统一（40-50px）
+- 排序：按知名度，从最响的开始
+- 至少 5 个，少了显寒酸；多于 12 个建议挪到 ADOPTERS.md
 
 ---
 
-## §9 Testimonials（如有）
+## §9 Testimonials（条件渲染：用户提供 ≥2 条真实引言才出）
+
+### 纯 markdown 版（兼容性最好，推荐）
 
 ```markdown
 ## 用户怎么说
 
-> "{{quote 1}}"
-> — **{{name 1}}**, {{title 1}} @ {{company 1}}
+> "{{quote_1}}"
+> — **{{name_1}}**, {{title_1}} @ {{company_1}}
 
-> "{{quote 2}}"
-> — **{{name 2}}**, {{title 2}}
+> "{{quote_2}}"
+> — **{{name_2}}**, {{title_2}}
 
-> "{{quote 3}}"
-> — **{{name 3}}**
+> "{{quote_3}}"
+> — **{{name_3}}**
 ```
+
+### Table 版（含头像）
+
+```markdown
+## 用户怎么说
+
+<table>
+<tr>
+<td width="33%" align="left">
+  <img src="assets/avatar/{{slug_1}}.jpg" width="60" align="left">
+  <b>{{name_1}}</b><br>
+  <sub>{{title_1}}, {{company_1}}</sub>
+  <p>"{{quote_1}}"</p>
+</td>
+<td width="33%" align="left">...</td>
+<td width="33%" align="left">...</td>
+</tr>
+</table>
+```
+
+⚠️ GitHub markdown sanitizer 会剥掉 `<img style="...">` 中的 `style` 属性，圆形头像（`border-radius: 50%`）在 GitHub 不生效。如需圆形头像，预处理为圆形 PNG。
+
+**约束**：
+- 至少 3 条；超过 5 条折叠或外链
+- 每条含人名 + title + 公司（至少 2 项）
+- 引言 ≤ 2 句
+- **绝不伪造**——被发现是社区死刑
 
 ---
 
-## §10 Star History（≥ 1k stars 时推荐）
+## §10 Numbers / 客户成果数字（条件渲染：用户提供可验证 benchmark 才出）
+
+```markdown
+## 实际效果
+
+<div align="center">
+
+| 项目 | 改进前 | 改进后 | 提升 |
+|---|---|---|---|
+| {{metric_1}} | {{before_1}} | {{after_1}} | **{{improvement_1}}** |
+| {{metric_2}} | {{before_2}} | {{after_2}} | **{{improvement_2}}** |
+| {{metric_3}} | {{before_3}} | {{after_3}} | **{{improvement_3}}** |
+
+数据来自 [docs/benchmarks.md](docs/benchmarks.md)。
+
+</div>
+```
+
+**约束**：
+- 数字必须可验证（链接到 benchmark 文档）
+- 至少 3 个数字（少了单薄）
+- 用百分比 + 绝对值组合（"-91% (从 7m 12s 到 40s)"）
+- 拒绝"行业领先"这类无锚点表述
+
+---
+
+## §11 Star History（条件渲染：≥1k stars 才出）
 
 ```markdown
 ## Star History
@@ -303,23 +368,49 @@ flowchart LR
 [![Star History Chart](https://api.star-history.com/svg?repos={{owner}}/{{repo}}&type=Date)](https://star-history.com/#{{owner}}/{{repo}}&Date)
 ```
 
+少于 1k stars 不要放——反成"显穷"信号。
+
 ---
 
-## §11 Contributors（开源项目推荐）
+## §12 Contributors（条件渲染：≥10 contributor 才出）
 
 ```markdown
 ## 贡献者
 
-感谢所有贡献者！
-
 <a href="https://github.com/{{owner}}/{{repo}}/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo={{owner}}/{{repo}}" />
+  <img src="https://contrib.rocks/image?repo={{owner}}/{{repo}}" alt="contributors" />
 </a>
+
+Made with [contrib.rocks](https://contrib.rocks).
+```
+
+自动更新，零维护。少于 10 个贡献者头像墙不饱满，不要放。
+
+---
+
+## §13 Sponsors（条件渲染：用户明确说有 sponsorship 才出）
+
+```markdown
+## 赞助 & 支持
+
+{{project}} 由 [GitHub Sponsors](https://github.com/sponsors/{{owner}}) 与 [OpenCollective](https://opencollective.com/{{project}}) 支持。
+
+<p align="center">
+  <a href="https://github.com/sponsors/{{owner}}">
+    <img src="https://opencollective.com/{{project}}/backers.svg?width=890" />
+  </a>
+</p>
+
+特别鸣谢以下赞助商：
+
+<p align="center">
+  <a href="{{sponsor_1_url}}"><img src="assets/sponsor-1.svg" height="50"></a>
+</p>
 ```
 
 ---
 
-## §12 Contributing（开源项目必需）
+## §14 Contributing（开源项目必需）
 
 ```markdown
 ## 参与贡献
@@ -337,55 +428,149 @@ flowchart LR
 
 ---
 
-## §13 国内特有元素（按需）
+## §15 国内特有元素（条件渲染：项目主语种为中文 + 用户确认时按需组合）
+
+国内项目相比国际项目，README 通常多出"本地化生态对接"元素。下列各小节按需启用，不必全用。
+
+### 15.1 社群入口
 
 ```markdown
 ## 加入社区
 
 <table>
 <tr>
-<td align="center">
+<td align="center" width="33%">
 <b>微信群</b><br>
 <img src="assets/wechat-group-qr.png" width="180"><br>
-<sub>群满请加 <code>{{wx_id}}</code> 拉你进群</sub>
+<sub>群满请加 <code>{{wx_id}}</code> 备注 GitHub 拉你进群</sub>
 </td>
-<td align="center">
+<td align="center" width="33%">
 <b>飞书群</b><br>
 <img src="assets/lark-group-qr.png" width="180">
 </td>
-<td align="center">
-<b>Discord</b><br>
-<a href="{{discord}}">{{discord_short_url}}</a>
+<td align="center" width="33%">
+<b>QQ 群</b><br>
+<code>{{qq_group_id}}</code><br>
+<sub><a href="{{qq_join_link}}">点击加入</a></sub>
 </td>
 </tr>
 </table>
 ```
 
-国内云一键部署：
+**关键约束**：群二维码会过期 / 群会满，**必须同时给文字补救**（微信号 / QQ 群号），不能只放二维码。
+
+### 15.2 微信公众号
+
+```markdown
+关注公众号「{{name}}」获取更新：
+
+<img src="assets/wechat-official-qr.png" width="180">
+```
+
+### 15.3 国内云一键部署
 
 ```markdown
 ## 一键部署
 
-[![阿里云](https://img.shields.io/badge/阿里云-计算巢一键部署-FF6A00)]({{aliyun_url}})
-[![Sealos](https://img.shields.io/badge/Sealos-Click_to_Deploy-2A2A2A)]({{sealos_url}})
-[![Zeabur](https://img.shields.io/badge/Zeabur-Deploy-7B40ED)]({{zeabur_url}})
+<a href="{{aliyun_url}}"><img src="https://img.shields.io/badge/阿里云-计算巢一键部署-FF6A00"></a>
+<a href="{{sealos_url}}"><img src="https://cdn.jsdelivr.net/gh/labring-actions/templates@main/Deploy-on-Sealos.svg"></a>
+<a href="{{zeabur_url}}"><img src="https://zeabur.com/button.svg"></a>
 ```
 
-模型镜像（AI 项目）：
+主要平台：阿里云计算巢 / Sealos / Zeabur / 腾讯云 / 火山引擎 / 华为云 / 1Panel。
+
+### 15.4 模型镜像（AI 项目特有）
+
+国内 AI 项目几乎必给多个模型仓库，因为 HuggingFace 国内访问慢：
 
 ```markdown
 ## 模型下载
 
-| 平台 | 链接 |
-|---|---|
-| 🤗 Hugging Face | [{{hf_link}}]({{hf_link}}) |
-| 🌐 ModelScope | [{{ms_link}}]({{ms_link}}) |
-| 📦 WiseModel | [{{wm_link}}]({{wm_link}}) |
+| 平台 | 链接 | 适用 |
+|---|---|---|
+| 🤗 Hugging Face | [{{hf_link}}]({{hf_link}}) | 海外用户 |
+| 🌐 ModelScope（魔搭） | [{{ms_link}}]({{ms_link}}) | 国内首选 |
+| 📦 WiseModel | [{{wm_link}}]({{wm_link}}) | 国内备用 |
+| 🔬 OpenXLab | [{{xlab_link}}]({{xlab_link}}) | 学术友好 |
 ```
+
+### 15.5 国内镜像仓库
+
+```markdown
+## 国内镜像
+
+代码镜像（同步 GitHub）：
+- [Gitee](https://gitee.com/{{owner}}/{{repo}})
+- [GitCode](https://gitcode.com/{{owner}}/{{repo}})
+- [Atomgit](https://atomgit.com/{{owner}}/{{repo}})
+
+文档镜像：
+- [Yuque（语雀）](https://www.yuque.com/{{owner}}/{{book}})
+- [中文文档（自建域名）]({{docs_zh_cn}})
+```
+
+### 15.6 演示视频（Bilibili 优于 YouTube）
+
+```markdown
+## 演示视频
+
+[![Bilibili 演示](assets/bilibili-thumbnail.png)](https://www.bilibili.com/video/{{bv}})
+
+或观看 [YouTube 版](https://www.youtube.com/watch?v={{yt_id}})。
+```
+
+### 15.7 Windows 整合包（一键启动，常见于 AI 项目）
+
+```markdown
+## Windows 整合包（一键启动）
+
+无需配 Python 环境，下载即可双击运行：
+
+| 版本 | 下载 | 大小 |
+|---|---|---|
+| v{{version}} (CUDA 12) | [百度网盘]({{bdy_url}}) / [HuggingFace]({{hf_url}}) / [ModelScope]({{ms_url}}) | 4.2 GB |
+| v{{version}} (CPU only) | 同上 | 3.8 GB |
+
+下载后解压，双击 `start.bat` 启动。
+```
+
+### 15.8 商业版 / 商业咨询入口
+
+```markdown
+## 商业版
+
+{{project}} 提供企业版（私有化部署 + 技术支持 + SLA），请联系：
+
+- 商业邮箱：[business@{{domain}}](mailto:business@{{domain}})
+- 商业咨询表单：[飞书表单]({{lark_form}})
+- 微信：{{biz_wx}}
+```
+
+### 15.9 国内排行榜 badge
+
+```markdown
+[![Trendshift](https://trendshift.io/api/badge/repositories/{{repo_id}})](https://trendshift.io/repositories/{{repo_id}})
+```
+
+类似的：HelloGitHub 月榜 / 开源中国（OSCHINA）热门 / 知乎技术榜。
+
+### 15.10 知乎 / 掘金 / Bilibili 链接
+
+```markdown
+## 阅读更多
+
+- [项目设计哲学（知乎专栏）](https://zhuanlan.zhihu.com/p/{{id}})
+- [技术细节（掘金）](https://juejin.cn/post/{{id}})
+- [Bilibili 教学频道](https://space.bilibili.com/{{uid}})
+```
+
+### 15.11 情怀型开场（少用）
+
+部分国内项目用文化锚点开场（如毕昇活字、敦煌、二十四节气）。**注意**：必须有真实文化共鸣，强行套用反成减分项。
 
 ---
 
-## §14 License（必需）
+## §16 License（必需）
 
 ```markdown
 ## License
@@ -398,7 +583,8 @@ flowchart LR
 ## Section 排序原则
 
 - 必需 sections（Hero / Quick Start / License）位置不变
-- 推荐 sections 按 archetype 决定的顺序（见 `archetypes.md`）
-- "信任锚"类（adopters / testimonials）尽量插在 hero 与 features 之间
+- 推荐 sections 按 archetype 决定的顺序（见 [`archetypes.md`](archetypes.md)）
+- "信任锚"类（adopters / testimonials / numbers）尽量插在 hero 与 features 之间
 - "社区/参与"类放接近底部
+- 国内特有 section 通常放在 contributing 之前 或 license 之前
 - License 永远最后

@@ -142,91 +142,75 @@ SCAN → ⛔ INTERVIEW → ⛔ ARCHETYPE → DRAFT → ⛔ REVIEW
 - **mirror 仓库**（GitHub 是镜像）：询问主仓库 owner/repo，不要默认填 GitHub 路径
 - **私有仓库**：跳过 shields.io / contrib.rocks / star-history（这些只对公开仓库工作），改用纯文字状态
 
-### 阶段 2：INTERVIEW（信息驱动 / 用户决定意愿、模型决定内容）
+### 阶段 2：INTERVIEW（缺口驱动 / 默认从代码推断）
 
-读 `references/interview-questions.md`（候选问题清单，模型按需取，不全问）。
+**核心信念**：Skill 默认应该**自己读懂项目**——从 SCAN 产物（manifest description / commit / 现有 README / 代码结构 / 入口形态）推断出大部分信息。**只有读完代码与文档后仍真正不知道、且影响生成质量的事，才问用户**。
 
-**核心思想——访谈服务于"得到最好结果"，不服务于"按数字配额走流程"**：
-- **没有固定数量**——不是固定 3 个，也不是上限 5 个，而是基于"还有多少关键信息缺失"动态决定
-- **没有硬上限**——但要有 stop condition：信息已足够生成有质量的 README 时停
-- **决策权两层分离**：用户决定"愿意花多少时间答题"（意愿层）；模型决定"在用户给的边界内问什么、问几个"（内容层）
+这意味着：
+- 没有固定问题清单
+- 没有候选问题池
+- "该问什么"是每个项目的具体函数，由模型按当前已知判断
 
 #### 2.1 第一步：用户表达意愿强度（**必须**）
 
-每次进入 INTERVIEW 阶段，第一步**必须**先用 AskUserQuestion 让用户选择意愿强度：
+进入 INTERVIEW 前，第一步用 AskUserQuestion 让用户三选一：
 
 | 选项 | 模型行为 |
 |---|---|
-| **多答几个，结果质量优先** | 模型基于 SCAN 缺口评估，把"显著影响结果质量"的问题都问了 |
-| **只答最关键的几个，省时间** | 模型只问"如果不问就会让结果明显打折"的关键问题 |
-| **全用默认值，直接跳过访谈** | 模型不问任何问题。所有未知字段走默认后备 + REVIEW 阶段以 ⚠️ 标记让用户最终判断 |
+| **多答几个，结果质量优先** | 把"显著影响结果质量"的缺口都问了 |
+| **只答最关键的几个** | 只问"不问会让结果明显打折"的 1-2 个 |
+| **全用默认，跳过访谈** | 不问任何问题；未知字段走默认 + REVIEW 阶段 ⚠️ 让用户最终判断 |
 
-**这一步是用户的"自我授权边界"**——在用户没表达意愿前，模型不能擅自决定问几个。
+**这一步是用户的"自我授权边界"**——意愿强度由用户定，问什么由模型按缺口定。
 
-#### 2.2 模型的"信息缺口评估"循环（决定问什么、问几个）
+#### 2.2 缺口评估循环
 
-每轮访谈，模型按以下闭环工作：
+每轮访谈：
 
 ```
-1. 当前已知 = SCAN 产物 + 用户已回答 + EXTEND.md 默认值
-2. 当前缺口 = 还有哪些信息缺失会让生成的 README 质量明显打折？
-3. 缺口排序 = 按"对结果质量的影响 × 答题成本"排序
-4. 决策：
-   - 缺口都已被默认值或 SCAN 推断兜底 → 不问，进入下一阶段
-   - 用户选"只答最关键" → 只问 top 1-2 个高影响低成本的
-   - 用户选"多答几个" → 把所有"显著影响"的都问了
-   - 用户选"全跳过" → 0 个问题，所有缺口走默认
-5. 用户答完 → 回到 1，重新评估
+1. 当前已知 = SCAN 产物 + 用户已答 + EXTEND.md 默认值
+2. 当前缺口 = 还有什么不拿到会让 README 质量打折的信息？
+3. 决策：
+   - 缺口都被推断/默认兜底 → 不问，进入下一阶段
+   - 用户选"只答最关键" → 问 top 1-2 个
+   - 用户选"多答" → 把"显著影响"的都问了
+   - 用户选"全跳过" → 0 个
+4. 答完 → 回到 1
 ```
 
-**信息缺口的判断维度**——一个问题"显著影响结果质量"通常意味着：
-- 缺了它，生成的某个章节会写不出来或写错（如缺"目标用户"，feature 段会把所有人当用户写）
-- 缺了它，类型选择会偏（如缺"是否有大客户"，无法决定是否走第三方背书型）
-- 缺了它，章节排序会偏（如缺"是否有 demo"，决定 hero 后第二屏放什么）
+**判断"该问"的信号**：
+- 缺了它，某个章节写不出来或写错
+- 缺了它，archetype 选择会偏
+- 缺了它，章节排序会偏
 
-**判断"非必要"的信号**——这种问题不应该问：
-- 用户可以靠默认值过、章节不渲染、按项目类型推断，结果差距不明显
-- 答案对最终输出影响 < 1 段文字
-- 主观偏好性问题（emoji 风格、颜色等）→ 这些归 EXTEND.md，不在 INTERVIEW 阶段问
+**判断"别问"的信号**（默认走推断/兜底）：
+- 答案能从代码/manifest/现有 README 推断
+- 用户可靠默认值过，结果差距 < 1 段文字
+- 主观偏好（emoji 风格、颜色等）→ 归 EXTEND.md
 
-#### 2.3 候选问题清单
+**"先推断、再决定问不问"的几个例子**（**启发**，不是清单——遇到新场景按同样思路处理）：
+- 一句话定位 → 先看现有 README 第一段 + manifest description；都缺才问
+- 目标用户 → CLI 类默认"开发者"，AI 库默认"AI 工程师"；只在项目跨界时问
+- 主 CTA → 按入口形态推断（CLI install / web demo / library example）；推不出再问
+- 双语策略 → SCAN 已识别主语种 + commit 语种通常够用；只在信号冲突时问
+- 信任锚（adopters / testimonials / benchmark）→ 默认条件渲染兜底（不满足就不渲染），不必主动问
 
-完整候选见 [`references/interview-questions.md`](references/interview-questions.md)。
+#### 2.3 提问规范
 
-模型从中按 §2.2 的评估闭环挑选，不固定取哪几个。常见高优先级候选：
+- **批量提问**：决定要问 N 个后，用 AskUserQuestion 一次性发出，不逐个来回
+- AskUserQuestion 不可用 → chat 编号列出，一条回复答多个
+- 每个 single/multi-select **必须含"全用默认 / 不知道"选项**——用户随时可中途跳出
+- 答完每批后重跑 §2.2 评估，决定"继续问"或"够了"
+- 已被 SCAN 或 EXTEND.md 兜底的字段**不再问**
 
-- **一句话定位** — 几乎所有项目都缺这个核心信号
-- **目标用户 + 核心目的** — 决定 feature 段视角和 tagline 套路
-- **主路径行动** — 决定 CTA 文案
-- **差异化** — 仅当用户/现有 README 提到"类似 X"
-- **典型使用场景** — 仅当上面答案抽象、缺具体落地
-- **信任锚（大客户/真实推荐/性能数字）** — 仅当用户表达想多答 + 项目实际可能有
-- **双语 + 国内特有元素** — 仅当 SCAN 检测到中文项目
+#### 2.4 默认值兜底原则
 
-> 注：用户在 SCAN 末尾可能被问"现有 README > 200 行 → `--rewrite` 还是 `--patch`"——这是**流程问题**，发生在阶段 1 末尾，不占 INTERVIEW 评估循环。
+凡未问到的字段：
+- **能从项目推断**的（一句话定位 / 目标用户 / 主 CTA / 双语策略）→ 用推断值
+- **属于条件渲染**的（信任锚 / 差异化 / 国内元素）→ 留空，对应 section 不渲染（详见 [`references/trust-signals.md`](references/trust-signals.md) 条件渲染规则）
+- **EXTEND.md 已设默认**的 → 用 EXTEND 值
 
-#### 2.4 提问规范
-
-- **批量提问**：模型决定要问 N 个之后，用 AskUserQuestion 一次性发出，不要逐个对话式来回
-- AskUserQuestion 不可用 → 在 chat 中按编号列出，一条回复答多个
-- 每个 single/multi-select 问题**必须含"全用默认 / 不知道"选项**——用户中途可以让模型跳过剩余
-- 用户答完每批后，模型重新跑 §2.2 评估闭环，决定"还需要继续问"还是"已经够"
-- 已被 SCAN 推断或 EXTEND.md 设了默认的字段**不再问**
-
-#### 2.5 默认值后备
-
-当某字段没问（用户选跳过、或模型评估为非必要）时的兜底：
-
-| 字段 | 兜底来源 |
-|---|---|
-| 一句话定位 | 项目目录名 + manifest description |
-| 目标用户 | 按项目类型推断（CLI → 需要 X 的开发者；SaaS → 需要 X 的团队；library → 构建 Y 的工程师） |
-| 主路径行动 | 按项目类型推断（CLI → install；SaaS → try demo；library → 第一个 example） |
-| 差异化 | 留空 → 章节不渲染 |
-| 信任锚 | 留空 → 条件渲染规则自动跳过对应 section（详见原则 5） |
-| 双语策略 | M1 中文优先（按 EXTEND.md 默认） |
-
-**所有走默认值的字段在 REVIEW 阶段必须高亮**（用 ⚠️ 标），让用户决定是否接受默认或修正。
+**所有走默认值的字段在 REVIEW 阶段以 ⚠️ 标记**，让用户决定接受或修正。
 
 ### 阶段 3：ARCHETYPE（自动决策 + 用户确认）
 
@@ -267,10 +251,7 @@ SCAN → ⛔ INTERVIEW → ⛔ ARCHETYPE → DRAFT → ⛔ REVIEW
 
 不通过 = 不进入 DRAFT。避免错落 archetype 后整份 README 失败。
 
-**Section 拼装契约**：
-- archetype 决定**主框架**（hero 套路 + 必出 section + 排序）
-- 用户可在 review 时插入其他 archetype 的 section（如 A 型加 D 的 architecture mermaid）
-- 拼装规则：所有 section 模板从 `references/section-library.md` 拉，archetype 只是"建议组合"
+**Section 拼装契约**：archetype 决定主框架（hero 套路 + section 排序），所有 section 模板从 `references/section-library.md` 拉（**唯一真理源**）。完整拼装规则见 `references/archetypes.md` 末尾"Section 拼装契约"。
 
 ### 阶段 4：DRAFT（生成 README）
 
@@ -447,20 +428,14 @@ DRAFT 完成后必须跑两层自检，**全部通过**才能进入 REVIEW。
 **核心信仰层**：
 - `principles.md` — **5 条核心原则**（所有主观设计判断的唯一来源）
 - `auto-checks.md` — **机械检测清单**（DRAFT 阶段强制运行的 lint）
-- `anti-patterns.md` — 重定向薄壳（v3 已分流到上面两份；保留为历史链接兼容）
 
 **执行层**：
-- `interview-questions.md` — 候选问题清单（模型按需取，不全问）
-- `answer-to-template-map.md` — INTERVIEW 答案 → 模板变量映射表
-- `archetypes.md` — 5 种 archetype 详解 + 决策树
+- `archetypes.md` — 5 种 archetype 详解 + 决策器 + section 拼装契约
 - `tagline-formulas.md` — 6 种 tagline 套路
-- `section-library.md` — section 模板库（**唯一真理源**）
-- `trust-signals.md` — 14 种信任信号 + 模板（含条件渲染规则）
-- `bilingual-patterns.md` — 4 种双语模式
+- `section-library.md` — section 模板库（**唯一真理源**，所有 archetype 拼装时从这里取）
+- `trust-signals.md` — 信任信号清单 + 条件渲染规则
+- `bilingual-patterns.md` — 双语模式
 - `image-plan.md` — 图片任务清单生成规则
-- `domestic-elements.md` — 中文社区特有元素
-- `scope-out.md` — 不该用本 Skill 的场景
-- `templates/` — 5 种 archetype 骨架（中英双版）
 
 ---
 

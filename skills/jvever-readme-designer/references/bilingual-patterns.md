@@ -270,4 +270,4 @@ English: After install, run `pdf2md input.pdf` and get a markdown in 30 seconds.
 - **Gitee / GitCode**（国内镜像仓库）
 - **国内云一键部署按钮**（阿里云 / Sealos / Zeabur / 火山引擎）
 
-详见 `domestic-elements.md`。
+详见 [`section-library.md`](section-library.md) §15 国内特有元素。

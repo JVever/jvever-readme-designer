@@ -253,7 +253,7 @@ Arc / Aider（次代表，用 30+ testimonial 压底）
 │   → A（开发者工具型，默认兜底）
 │
 └─ 信号 7（无 manifest 或全部不命中）：
-   → 询问用户项目类型，或建议走 scope-out（见 scope-out.md）
+   → 询问用户项目类型；如项目不属于 software（dotfiles / awesome-list / 个人 reference / 内部专用），建议改用普通 markdown 编辑而非本 Skill
 ```
 
 ## E 型的特殊触发规则（自动化）
@@ -268,17 +268,26 @@ E 型门槛高（必须有真实可验证的 testimonial）。Skill 应在以下
 
 **未达门槛但选 E**：Skill 应警告"E 型需要真实可验证的引言，建议改回 A/C/D"。
 
-## Archetype 混搭
+## Section 拼装契约（DRAFT 阶段使用）
+
+DRAFT 阶段不再加载预存的"完整 archetype 骨架"——直接按下面的契约从 [`section-library.md`](section-library.md) 拼装：
+
+1. **主 archetype 由决策器选定** → 取本文件中该 archetype 的 "Section 顺序" 列表
+2. **Hero 风格** → 用该 archetype 的 "Hero 套路"（套路名对应 [`tagline-formulas.md`](tagline-formulas.md) 中的具体公式）
+3. **Feature 段呈现形式** → 按 "关键武器"决定用哪种变体（A/D 用 emoji bullet，B 用 checkbox，C 用卡片网格，E 用引言墙）
+4. **每个 section 的具体模板** → 全部从 `section-library.md` 取（**唯一真理源**）；不允许在本文件或其他地方维护 section 模板的副本
+5. **条件渲染** → 信任段（adopters / testimonials / star history / contributors / sponsors）按 [`trust-signals.md`](trust-signals.md) 的渲染条件判定，不满足条件的整段不出现
+
+### Archetype 混搭
 
 archetype 不是死的。允许"以 A 为主，借 B 的架构图，借 D 的拟人化定位"。
 
-**拼装规则**：
 - 主 archetype 决定 hero 套路 + section 排序
-- 任何 section 模板都来自 `section-library.md`（唯一真理源）
-- Skill 推荐主 archetype 后，**允许用户在 REVIEW 时插入其他 archetype 的 section**
+- 模型在 DRAFT 时可基于实际项目特征插入其他 archetype 的 section（如 A 型 CLI 项目借 D 的 architecture mermaid 段）
+- 用户也可在 REVIEW 时要求插入
 
-**示例**：A 型项目（CLI）+ 借 D 的 architecture mermaid 段：
+**示例**：A 型项目（CLI）+ 借 D 的 architecture：
 ```
 hero（A）→ what is X（A）→ quick start（A）→ features（A）→
-architecture（D, mermaid）→ why X（A）→ adopters（A）→ ...
+architecture（D, mermaid）→ why X（A）→ adopters（A，条件渲染）→ contributing → license
 ```

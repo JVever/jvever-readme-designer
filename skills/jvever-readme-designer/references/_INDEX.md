@@ -14,27 +14,18 @@ CLAUDE.md V4.0 §2.4 要求每个代码文件有 @input/@output/@rule 头注释�
 
 ## 职责
 
-承载 Skill 的设计原则、模式库、模板与反模式清单。SKILL.md 只描述流程，具体内容查这里。
+承载 Skill 的设计原则、模式库、模板与条件渲染规则。SKILL.md 只描述流程，具体内容查这里。
 
 ## 文件清单
 
-**核心信仰层（v3 重构）**：
+**信仰层（主观判断 / 机械检测）**：
 - `principles.md` — **5 条核心原则**（所有主观设计判断的唯一来源；每条挂"反例锚"）
-- `auto-checks.md` — **机械检测清单**（DRAFT 阶段强制运行的 lint，A-F 六组）
-- `anti-patterns.md` — **重定向薄壳**（v2 时代的 16 条反模式已分流到上面两份；保留为外部链接兼容）
+- `auto-checks.md` — **机械检测清单**（DRAFT 阶段强制运行的 lint，A-E 五组；只放对错明确、可机械检测的规则）
 
-**执行层**：
-- `interview-questions.md` — 候选问题清单（模型按"信息缺口评估闭环"按需取，不全问、不固定数量）
-- `answer-to-template-map.md` — INTERVIEW 答案 → 模板变量映射表（含命名规范）
-- `archetypes.md` — 5 种 archetype 详解 + 决策器（信号优先级）+ E 型自动触发规则 + 混搭契约
+**执行层（archetype 决策 + section 拼装）**：
+- `archetypes.md` — 5 种 archetype 详解 + 决策器（信号优先级）+ E 型自动触发规则 + Section 拼装契约（DRAFT 阶段直接按此契约从 section-library 拼装，不再加载预存骨架）
+- `section-library.md` — **唯一真理源** — Section 模板库（§1-§16 含 hero / quickstart / features / why / use-cases / architecture / adopters / testimonials / numbers / star-history / contributors / sponsors / contributing / 国内特有元素 / license）
 - `tagline-formulas.md` — 6 种 tagline 套路（中文 ≤30 汉字 / 英文 ≤120 字符）
-- `section-library.md` — Section 模板库（**唯一真理源** — 所有 archetype 拼装时都从这里取）
-- `trust-signals.md` — 14 种信任信号 + badges / logo 墙 / star history 模板（含条件渲染规则）
+- `trust-signals.md` — 信任信号清单 + **条件渲染规则** + 真实性硬规则 + Badges 最佳实践 + 反信号清单（具体模板在 section-library §8-§13、§15）
 - `bilingual-patterns.md` — 4 种双语模式（M1 中文优先双文件为默认，含 silent fail 规避规则）
 - `image-plan.md` — 图片任务清单生成规则（统一 placehold.co）
-- `domestic-elements.md` — 中文社区特有元素（飞书/微信群/ModelScope/Bilibili/国内一键部署）
-- `scope-out.md` — 不该用本 Skill 的场景 + 推荐替代
-
-## 子目录
-
-- `templates/` — 5 种 archetype 骨架模板（中英双版均完整）+ universal-blocks（通用区块）

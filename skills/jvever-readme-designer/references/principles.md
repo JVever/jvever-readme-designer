@@ -85,14 +85,14 @@
 - **冗余功能元素**：同一功能不重复放（语言切换：顶部 lang badge **或** nav 行 English 链接，**只放一处**）
 - **唯一安装路径**：主路径只有一条，其他用 `<details>` 折叠
 - **CTA**：重复 3 次但只一种文案（hero / features 段中 / 页脚）
-- **中英混杂节制**：中文版只在英文是**公认缩写或术语**（API / CLI / SDK / GIF / URL / npm / git / commit / PR / SaaS 等）时保留英文。半专业词（archetype / claim / testimonial / adopter / before-after / funnel / moat）翻译成中文。判断标准——把英文词单独列出问"领域内非英语母语读者认得吗？"
+- **中英混杂节制**：中文版避免**不必要的**中英混杂——不是完全拒绝。判断标准是"换成中文之后，目标读者是更容易看懂还是更困惑？"——命令名、文件名、代码标识符、领域内已成共识的英文（如开发者文档里的 API/CLI/SDK，AI 圈的 embedding/agent）保留；半专业的方法论切片词（如设计套路、营销漏斗、用户评价）翻译成中文；分不清的留给 REVIEW 阶段问用户。**不维护黑白名单**——这条是判断题不是查表题。
 
 **反例锚**：
 - emoji 满天飞：`# 🚀✨🔥 CoolProject 🎉🌟💫`
 - 装饰流程图：`⛔ STAGE 1 ──────── ⛔ STAGE 2 ────────`（本 skill v2 自己犯过）
 - 多余 div：`<div align="center"><h2>...</h2></div>` 包了一层啥也没加
 - 双语切换重复：顶部 lang badge + nav 行 English 链接同时存在
-- 中英混杂用冷词："5 种 archetype，每个 claim 都配证据"——archetype/claim 中文圈不熟
+- 中英混杂用冷词：把领域外读者不熟的方法论术语以原英文塞进中文段落（典型如设计/营销/产品方法论里的英文切片词）
 
 ---
 
