@@ -2,222 +2,152 @@
 
 # jvever-readme-designer
 
-**Interview-driven, marketing-grade README designer for code projects.**
+**把 README 当 landing page 而非文档来设计**
 
-Treat your README as a landing page, not a doc dump.
+[![License](https://img.shields.io/badge/license-TBD-lightgrey)](#license) [![Claude Code Skill](https://img.shields.io/badge/Claude_Code-Skill-orange)](https://docs.claude.com/en/docs/claude-code/skills) [![Bilingual](https://img.shields.io/badge/lang-zh%20%2B%20en-blue)](README_en.md)
 
-![type](https://img.shields.io/badge/type-Claude_Code_Skill-7C3AED?style=flat-square)
-![status](https://img.shields.io/badge/status-v2.1_production-green?style=flat-square)
-![bilingual](https://img.shields.io/badge/output-中文+English-orange?style=flat-square)
-![license](https://img.shields.io/badge/license-MIT-blue?style=flat-square)
-
-[Install](#installation) · [Usage](#usage) · [Modes](#modes) · [Why](#why-this-exists) · [中文文档](README_CN.md)
+[SKILL.md](skills/jvever-readme-designer/SKILL.md) · [CHANGELOG](CHANGELOG.md) · [English](README_en.md)
 
 </div>
 
----
+> 一个 Claude Code Skill：当你说"帮我写 README"时，它先扫你的项目代码，做**缺口驱动的访谈**（不问能推断的事），按 **archetype 自动决策**拼装骨架，过 **5 条原则 + 机械检测两层自检**，最后生成中英双语营销级门面。
 
-A skill that scans your project, lets you choose how much time you want to spend answering (more / only the critical few / skip with all defaults), and lets the model decide *what* to ask and *how many* based on the information gaps it sees. No fixed quota. Final output: a product-marketing-grade bilingual README plus an image task plan.
-
-> Skill is a portable format supported by Claude Code, Cursor, Codex, and other AI editors — install once, use anywhere.
-
----
-
-## Why this exists
-
-Most open source READMEs are doc dumps: install command + feature list + license. Visitors leave in 5 seconds.
-
-The good ones — Linear, Cursor, Vercel, Supabase, FastGPT, Lobe Chat — treat README as a product landing page:
-
-- A hero that answers "what / for whom / how to start" in 5 seconds
-- Show-don't-tell evidence for every claim (GIF / benchmark / code / before-after)
-- Trust signals (adopters, testimonials, real numbers, last release date)
-- Structure tuned to the product's archetype, not a one-size-fits-all template
-
-This Skill captures that craft. It scans your project first, lets you set the interview depth, then asks only what it actually needs based on detected gaps. Picks the right format, runs a two-layer self-check (mechanical lint + 5 positive principles), and ships bilingual output.
+```bash
+git clone https://github.com/JVever/jvever-readme-designer.git
+cp -r jvever-readme-designer/skills/jvever-readme-designer ~/.claude/skills/
+# 然后在项目里启动 Claude Code，对它说 /jvever-readme-designer
+```
 
 ---
 
-## Features
+## 这个 Skill 是什么？
 
-- **5 archetypes** — A Dev tool / B Infrastructure / C Consumer tool / D New-category / E Endorsement-first. Auto-decision tree based on SCAN + interview signals.
-- **6 tagline formulas** — Category-defining, outcome-promise, identity-resonance, third-party endorsement, metaphor, hard-numbers.
-- **5 positive principles + mechanical lint, separated** — Subjective judgment lives in [`principles.md`](skills/jvever-readme-designer/references/principles.md) (5 principles, each with anchor anti-examples). Mechanical checks (path leakage, broken links, placeholder leftovers, mixed-language blacklist, etc.) live in [`auto-checks.md`](skills/jvever-readme-designer/references/auto-checks.md). Both run before draft is shown.
-- **Bilingual by default** — Chinese-first (M1: `README.md` + `README_en.md`) with proper i18n switching (current-language badge is not a link → no silent fail).
-- **Image task plan** — Separate `docs/readme-image-plan.md` with priority, dimensions, and how-to-make guidance. Auto-generated assets (Star History, contributors, mermaid) skip the plan.
-- **Conditional trust signals** — Star History only renders ≥1k stars, contributors wall only ≥10 authors, adopters only when user provides real names. No "displaying poor" with 50-star projects.
-- **Domestic elements for Chinese projects** — WeChat / Lark / QQ groups, ModelScope mirror, Bilibili demo, Aliyun / Sealos one-click deploy.
-- **`EXTEND.md` for persistent preferences** — Override default archetype, bilingual pattern, emoji style, render thresholds.
-- **Scope-out boundary** — Explicit "when NOT to use this Skill" list to avoid mis-triggering on dotfiles / single-line edits / private references.
+**简短版**：一个让 Claude Code 在你项目里**像产品经理 + 设计师 + 文案那样设计 README** 的方法论包。
+
+**详细版**：
+
+它不是模板生成器（不是 readme.so 那种填空），也不是单条 prompt。它是 Claude Code Skill 形态的**结构化方法论**：
+
+- 默认**先读你的代码**——manifest、commit history、现有 README、入口形态、视觉资产、trust signals 状态——能推断的不问你
+- 只在**真正缺信息时才追问**（缺口驱动，不是固定问卷；用户决定意愿强度，模型决定问什么）
+- 按你的项目类型**自动决策 archetype**（5 种：开发者工具型 / 基础设施型 / 消费工具型 / 新品类教育型 / 第三方背书型）
+- 用 **5 条核心原则**做主观判断（首屏定生死 / 基于 Job 而非 feature / Show don't tell / 克制即专业 / 信任信号 + 鲜活维护）
+- 用**机械检测清单**做客观 lint（路径泄露 / broken link / 占位图服务停服 / 双语 silent fail 等，对错明确）
+- 默认生成 **中英双语**（README.md + README_en.md）+ 一份 `docs/readme-image-plan.md` 图片任务清单
+
+**结果**：你的 README 从"不到 100 行的文档堆砌"变成"5 秒能看清产品 → 30 秒愿意试用 → 1 分钟有信任建立"的 landing page。
 
 ---
 
-## Modes (3-dimensional orthogonal)
+## 快速开始
 
-Three independent dimensions, freely composable:
+```bash
+# 1. 把 Skill 装进 Claude Code
+git clone https://github.com/JVever/jvever-readme-designer.git
+cp -r jvever-readme-designer/skills/jvever-readme-designer ~/.claude/skills/
 
-| Dimension | Options | Default |
+# 2. 在你的项目里启动 Claude Code，说：
+> /jvever-readme-designer
+
+# 或用自然语言触发：
+> 帮我把这个项目的 README 重写成 landing page 风格
+```
+
+<details>
+<summary>触发参数与模式（三维正交）</summary>
+
+```
+/jvever-readme-designer                          # quick + bilingual + with-images（默认）
+/jvever-readme-designer --full                   # 多答几个问题，质量优先
+/jvever-readme-designer --rewrite --en-only      # 重写已有 README，只输出英文
+/jvever-readme-designer --patch --zh-only        # 只补已有中文 README 的窟窿
+```
+
+完整参数说明见 [SKILL.md](skills/jvever-readme-designer/SKILL.md)。
+
+</details>
+
+<details>
+<summary>持久化偏好（EXTEND.md）</summary>
+
+复制 `skills/jvever-readme-designer/EXTEND.md` 到你的项目根，按需调整默认值（永远默认 `--full`、永远 `--zh-only`、强制某种 emoji 风格等）。
+
+</details>
+
+---
+
+## 为什么用这个 Skill
+
+### 1. 默认读你的代码，不问不必问的问题
+
+大部分 README 生成器一上来就是"请回答这 7 个问题"。本 Skill 的第一步是**扫描**：
+
+- manifest（package.json / Cargo.toml / pyproject.toml / go.mod / Gemfile / pubspec.yaml ……）
+- 入口形态（CLI / Library / Web app / Mobile / Desktop / AI Model 等 11 种特征推断）
+- commit message 主语种、现有 README 的金句、trust signals 现状（LICENSE / CI / CHANGELOG / SECURITY）
+
+**能从代码推断的，不问你**。只问"读完代码仍真正不知道、且不问会让 README 质量打折"的事。在"动态缺口评估 + 意愿强度三档"双层决策下，访谈通常 0-5 个问题——而不是固定 7 题。
+
+### 2. 5 种 archetype 自动决策，不一刀切
+
+不同产品类型有不同的 README 骨架：
+
+| Archetype | 适用 | Hero 套路 |
 |---|---|---|
-| **Flow** | `--quick` (default; model decides count from gaps + your willingness) / `--full` (broader candidate pool, leans toward asking more) / `--rewrite` (preserve gold, fix weak, fill gaps) / `--patch` (gaps only, no interview) | `--quick` |
-| **Output language** | `--bilingual` / `--en-only` / `--zh-only` | `--bilingual` |
-| **Image plan** | `--with-images` / `--no-images` | `--with-images` |
+| **A 开发者工具型** | CLI / SDK / 库 / IDE 插件 | 品类定义 + asciinema |
+| **B 基础设施 / 平台型** | DB / BaaS / 云服务 / API gateway | 结果承诺 + 大客户墙 |
+| **C 消费 / 创作者工具型** | 桌面 app / 视频音频 / 写作 | 身份共鸣 + 强视觉 |
+| **D 新品类教育型** | LLM agent / 全新概念 | 拟人 / 隐喻 + 视频 demo |
+| **E 第三方背书优先型** | 已有强势对手的赛道 | 用户原话当 H1 |
 
-Question count is **not fixed and has no hard cap**. At the start of every interview you choose your willingness — answer more, answer only the critical, or skip with all defaults. Within that boundary, the model evaluates "what missing information would meaningfully degrade the result" and asks only those.
+决策器按"manifest 信号 + 入口形态 + 用户答案"自动选，并允许混搭（如 A 型 CLI 借 D 的 architecture mermaid）。所有 section 模板从 [`section-library.md`](skills/jvever-readme-designer/references/section-library.md) 取——**唯一真理源**，没有副本。
 
-```bash
-/jvever-readme-designer                       # default: bilingual + image plan + targeted interview
-/jvever-readme-designer --full                # deeper interview
-/jvever-readme-designer --rewrite --en-only   # rewrite existing, English only
-/jvever-readme-designer --patch               # fill gaps only, no interview
-```
+### 3. 信仰原则 + 机械检测两层自检
 
-Persistent overrides → `EXTEND.md` in your project root.
+**主观判断** 走 [5 条核心原则](skills/jvever-readme-designer/references/principles.md)：首屏定生死 / 基于 Job 而非 feature / Show, don't tell / 克制即专业 / 信任信号 + 鲜活维护。每条挂"反例锚"作记忆点。
 
----
+**客观检测** 走 [机械 lint](skills/jvever-readme-designer/references/auto-checks.md)：本地路径泄露（`/Users/<x>/`）、broken license link、`via.placeholder.com` 已停服、双语切换 silent fail、占位符未替换、hero 后装饰 ASCII 超长、标题 emoji……每项对错明确，自动修或阻断进入 REVIEW。
 
-## Installation
+> 主观判断与机械规则**不混在一起**——v3 重构的核心是把"判断题"与"查表题"分开，让模型在判断题上发挥判断力，在查表题上严格守规。
 
-Simplest path — clone directly into Claude Code's skills folder:
+### 4. 默认中英双语 + 国内生态接口
 
-```bash
-git clone https://github.com/<owner>/jvever-readme-designer.git \
-  ~/.claude/skills/jvever-readme-designer
+国内开源项目双语需求天然高，但大多数 README 生成器只懂英文。本 Skill 默认走 **M1 中文优先双文件**（`README.md` 中 + `README_en.md` 英），并内置一组国内特有 section（**条件渲染**，不打扰国际化项目）：
 
-# Verify
-ls ~/.claude/skills/jvever-readme-designer/skills/jvever-readme-designer
-# → SKILL.md  EXTEND.md  _INDEX.md  references/
-```
-
-> Replace `<owner>` with the actual GitHub owner.
-
-If you'd rather keep the repo in your own code directory and symlink it:
-
-```bash
-# Clone wherever you keep your code
-git clone https://github.com/<owner>/jvever-readme-designer.git <your-code-dir>/jvever-readme-designer
-
-# Symlink
-ln -s <your-code-dir>/jvever-readme-designer/skills/jvever-readme-designer \
-      ~/.claude/skills/jvever-readme-designer
-```
-
-Cursor / Codex / other AI editors: see their respective docs for registering `skills/jvever-readme-designer` as a skill.
-
-Restart your editor. The skill auto-loads on next session.
+- 飞书 / 微信 / QQ 社群入口
+- ModelScope / WiseModel / OpenXLab 模型镜像（AI 项目）
+- 阿里云计算巢 / Sealos / Zeabur / 1Panel 一键部署
+- Bilibili 演示视频
+- Gitee / GitCode / Atomgit 国内镜像仓库
+- Trendshift / HelloGitHub / OSCHINA 排行 badge
 
 ---
 
-## Usage
+## 核心特性
 
-In your AI editor, trigger by saying any of these (English or Chinese):
-
-- "Write a marketing-grade README for this project"
-- "Polish my README"
-- "我的 README 太朴素了，重做一下"
-- "帮这个项目设计 README"
-- "GitHub 项目首页要发布了，做一下门面"
-
-The Skill auto-engages and walks you through 5 stages, pausing at each ⛔ for your confirmation.
-
-To trigger explicitly: `/jvever-readme-designer` (with optional flags).
+- 🔍 **代码先读，缺口才问** — manifest / commit / 入口形态先扫一遍，问的问题是项目特定函数，不是固定模板
+- 🎯 **5 种 archetype 自动决策** — 决策器按入口形态 + 用户答案选骨架，允许跨型混搭
+- 📐 **section-library 唯一真理源** — 16 个 section 模板都在一份文档里，无副本无漂移
+- 🛡 **主观原则 + 机械检测两层自检** — 5 条原则做判断题，lint 清单做查表题，互不污染
+- 🌏 **中英双语默认 + 国内生态内置** — M1 中文优先，飞书 / ModelScope / 一键部署等条件渲染
+- 📦 **图片任务清单同步生成** — `docs/readme-image-plan.md` 列出每张图的位置 / 用途 / 尺寸 / 优先级 / 制作工具
+- ⚡ **`--rewrite` / `--patch` 增量模式** — 不黑箱重写。先给 diff 报告（保留 X 段、重写 Y 段、补 Z 段），用户批准后再生成
 
 ---
 
-## How it works
+## 参与贡献
 
-```
-SCAN → ⛔ INTERVIEW → ⛔ FORMAT PICK → DRAFT → ⛔ REVIEW
-```
+这是早期项目，欢迎反馈：
 
-| Stage | What happens |
-|---|---|
-| **SCAN** | Reads project locally (manifests, assets, existing README, LICENSE, CI). **No network calls, no fabricated data.** Reports a "project profile" for confirmation. |
-| **⛔ INTERVIEW** | Opens with a willingness choice (more / only critical / skip with defaults). Within that boundary, the model picks what to ask and how many based on detected information gaps — **no fixed count**. Skips anything SCAN already answered. |
-| **⛔ FORMAT PICK** | Decision tree picks 1 of 5 README formats; you can override. Section order is proposed concretely (not abstract template). |
-| **DRAFT** | Generates `README.md` + `README_en.md` + `docs/readme-image-plan.md`. Self-check loop runs ≤2 rounds; auto-fixes safe issues. |
-| **⛔ REVIEW** | Shows what was auto-fixed, what was escalated, and subjective decision points (tagline alternatives). Iterates 1–2 rounds on your feedback. |
+- 🐛 **报告 Issue** — archetype 决策错误 / 检测漏报 / 模板缺陷
+- 💡 **Feature Request** — 新 archetype / 新 section 模板 / 新 lint 规则
+- 📖 **改进 references 文档** — `references/` 下任一文件
+- 💻 **PR 欢迎**
 
----
-
-## Project structure
-
-```
-jvever-readme-designer/
-├── README.md                          # English (this file)
-├── README_CN.md                       # 中文
-├── CHANGELOG.md
-├── research/
-│   └── synthesis.md                   # 60+ project / site survey, 17 insights
-└── skills/
-    └── jvever-readme-designer/           # The actual skill
-        ├── SKILL.md                   # Main entry, 5-stage workflow
-        ├── EXTEND.md                  # User preferences template
-        ├── _INDEX.md
-        └── references/
-            ├── principles.md          # 5 core principles (single source for subjective design)
-            ├── auto-checks.md         # Mechanical lint (mandatory, runs in DRAFT)
-            ├── interview-questions.md
-            ├── answer-to-template-map.md
-            ├── archetypes.md          # 5 archetypes + decision tree
-            ├── tagline-formulas.md
-            ├── section-library.md     # Section templates (single source)
-            ├── trust-signals.md
-            ├── bilingual-patterns.md
-            ├── image-plan.md
-            ├── anti-patterns.md
-            ├── domestic-elements.md
-            ├── scope-out.md           # When NOT to use
-            └── templates/
-                ├── archetype-A-dev-tool.md
-                ├── archetype-B-infrastructure.md
-                ├── archetype-C-consumer-tool.md
-                ├── archetype-D-new-category.md
-                ├── archetype-E-endorsement-first.md
-                └── _universal-blocks.md
-```
-
----
-
-## How it was built
-
-5 parallel research agents surveyed **60+ open source READMEs** (Cursor, Aider, OpenHands, LangChain, Vercel, Supabase, PostHog, ChatTTS, FastGPT, Dify, Lobe Chat, MaxKB …) and product landing pages (Linear, Stripe, Raycast, Notion, Arc, Warp …), plus 7 design methodology sources (Standard README spec, Tom Preston-Werner's RDD, StoryBrand SB7, JTBD, NN/G F-pattern research …).
-
-The Skill was then iterated through **4 independent reviewer agents** (design-rationality, real-world-simulation, anti-pattern audit, trigger/naming review) and one verification round. Final score: **8.5 / 10**, 27 of 30 issues fully resolved.
-
-Full process traceable in [research/synthesis.md](research/synthesis.md).
-
-Key design influences:
-- **Standard README spec** — Richard Litt
-- **README Driven Development** — Tom Preston-Werner (2010)
-- **StoryBrand SB7** — Donald Miller
-- **Jobs-to-be-Done** — Tony Ulwick / Christensen
-- **Cognitive science** — F-pattern reading (NN/G), choice overload (Iyengar/Lepper jam study), peak-end rule (Kahneman)
-
----
-
-## When NOT to use
-
-See [scope-out.md](skills/jvever-readme-designer/references/scope-out.md) for the full list. Quick check:
-
-- Single-line edits → just edit, don't run a 5-stage workflow
-- Pure dotfiles / awesome-list / non-software repos → use plain markdown
-- Internal tools you don't market → minimal structure is fine
-- README for someone else's project → don't rewrite other people's storefront
-
----
-
-## Status & roadmap
-
-- **v2.1** (current) — Production-ready. Passed 4-reviewer audit + verification round.
-- **v3.0** (current, 2026-05-07) — Architectural refactor: rename `jvs` → `jvever`; design philosophy shift from anti-pattern-driven to principle-driven (5 principles + mechanical lint); interview shifts from quota-driven to information-gap-driven (no fixed count, no hard cap).
-- **v4** (planned) — Quantitative evals: run the Skill on a fixture set of real open source projects, score outputs against principles + auto-checks programmatically.
-
-Known limitations:
-- The endorsement-first format requires real testimonials and **will not fabricate** — by design.
-- SCAN does not call GitHub API (kept local to avoid hallucinated star / version numbers); badges that need fresh data use shields.io URLs that resolve at render time.
+变更历史见 [CHANGELOG.md](CHANGELOG.md)。
 
 ---
 
 ## License
 
-[MIT](LICENSE) © 2026 jvever
+License: TBD（建议补 LICENSE 文件，推荐 MIT）。
