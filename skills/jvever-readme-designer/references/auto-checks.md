@@ -93,6 +93,16 @@ DRAFT 完成 → [本文件] 机械检测 → 命中 → 自动修复 / 阻断�
 
 **修法**：保留 nav 行内嵌切换（推荐），删除顶部 badge 条；或仅保留顶部 badge 条删除 nav 内的语言链接。
 
+#### B6. GitHub URL 与 git remote 一致性
+**检测**：
+- README 中出现 `github.com/<owner>/<repo>` 形式的链接（含 clone 命令、徽章 URL、issue 链接等）
+- 与 `git remote get-url origin` 解析出的 owner/repo 不一致 → 失败
+
+**修法**：
+- 若仓库已配置 remote → 用 remote 的 owner/repo 替换
+- 若仓库无 remote（本地仓库）→ 不写绝对 GitHub URL，改用相对路径或占位符 `<owner>/<repo>`
+- 不允许 README 命令里的 clone URL 是不存在或臆造的仓库（这是原则 5"鲜活的硬规则"）
+
 ---
 
 ### C. 占位符与模板渲染
