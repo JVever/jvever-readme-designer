@@ -4,7 +4,7 @@
 
 **把 README 当 landing page 来设计，不是文档堆砌。**
 
-[![License](https://img.shields.io/badge/license-TBD-lightgrey)](#license) [![Claude Code Skill](https://img.shields.io/badge/Claude_Code-Skill-orange)](https://docs.claude.com/en/docs/claude-code/skills) ![Bilingual](https://img.shields.io/badge/lang-zh%20%2B%20en-blue)
+[![License: CC BY-SA 4.0](https://img.shields.io/badge/license-CC%20BY--SA%204.0-lightgreen)](LICENSE) ![Portable Skill](https://img.shields.io/badge/Skill-portable-orange) ![Bilingual](https://img.shields.io/badge/lang-zh%20%2B%20en-blue)
 
 [SKILL](skills/jvever-readme-designer/SKILL.md) · [CHANGELOG](CHANGELOG.md) · [English](README_en.md)
 
@@ -14,11 +14,11 @@
 
 ## 这是什么
 
-一个 Claude Code Skill：当你说「帮我写 README」时，它先**读你的项目代码**，自己做完所有设计决策（archetype、tagline 套路、section 顺序、卖点排序），过两层自检，最后输出**中英双语营销级 README**。
+一个**便携式 AI Skill**：当你说「帮我写 README」时，它先**读你的项目代码**，自己做完所有设计决策（archetype、tagline 套路、section 顺序、卖点排序），过两层自检，最后输出**中英双语营销级 README**。
 
 它不替你做的事只有一件：**审稿**。
 
-> Skill 是 Claude Code、Cursor、Codex 等 AI 编辑器通用的便携格式——装一次，到处可用。
+> Skill 是 Claude Code、Cursor、Codex、Trae 等 AI 编辑器通用的便携格式（YAML frontmatter + Markdown），装一次到处可用——本仓库不锁死任何一家工具。
 
 ---
 
@@ -26,10 +26,23 @@
 
 ```bash
 git clone https://github.com/JVever/jvever-readme-designer.git
-cp -r jvever-readme-designer/skills/jvever-readme-designer ~/.claude/skills/
 ```
 
-在你的项目里启动 Claude Code，对它说：
+按你用的工具装到对应位置：
+
+| AI 编辑器 | 安装路径 |
+|---|---|
+| Claude Code | `~/.claude/skills/jvever-readme-designer/` |
+| Cursor / Codex / Trae 等 | 见各家文档的 skills / custom-modes / agents 目录 |
+
+最简单的做法是软链：
+
+```bash
+ln -s "$(pwd)/jvever-readme-designer/skills/jvever-readme-designer" \
+      ~/.claude/skills/jvever-readme-designer
+```
+
+在你的 AI 编辑器里启动它，对它说：
 
 ```
 > /jvever-readme-designer
@@ -203,4 +216,11 @@ jvever-readme-designer/
 
 ## License
 
-TBD —— 建议补一份 `LICENSE` 文件（MIT / Apache-2.0 / BSD-3 任选）。
+[**CC BY-SA 4.0**](LICENSE) —— 知识共享署名-相同方式共享 4.0 国际许可协议。
+
+**这意味着**：你可以自由复制、修改、商用本 Skill，**但有两个义务**：
+
+1. **署名（BY）**：保留原作者标注，注明出处链接，并说明做了什么修改
+2. **相同方式共享（SA）**：基于本 Skill 的衍生作品（fork / 改造 / 再分发）必须以**相同的 CC BY-SA 4.0** 许可发布——不允许把改过的版本重新闭源或换更宽松的协议
+
+适用所有形式的衍生：包装成 SaaS、嵌入商业产品、二次开发都必须开源。

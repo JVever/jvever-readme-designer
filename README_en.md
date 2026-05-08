@@ -4,7 +4,7 @@
 
 **Design your README as a landing page, not a doc dump.**
 
-[![License](https://img.shields.io/badge/license-TBD-lightgrey)](#license) [![Claude Code Skill](https://img.shields.io/badge/Claude_Code-Skill-orange)](https://docs.claude.com/en/docs/claude-code/skills) ![Bilingual](https://img.shields.io/badge/lang-zh%20%2B%20en-blue)
+[![License: CC BY-SA 4.0](https://img.shields.io/badge/license-CC%20BY--SA%204.0-lightgreen)](LICENSE) ![Portable Skill](https://img.shields.io/badge/Skill-portable-orange) ![Bilingual](https://img.shields.io/badge/lang-zh%20%2B%20en-blue)
 
 [SKILL](skills/jvever-readme-designer/SKILL.md) · [CHANGELOG](CHANGELOG.md) · [中文](README.md)
 
@@ -14,11 +14,11 @@
 
 ## What is this
 
-A Claude Code Skill: when you say "write me a README", it **reads your project code first**, makes every design call itself (archetype, tagline formula, section order, what to highlight), runs two layers of self-check, and ships a **bilingual marketing-grade README**.
+A **portable AI Skill**: when you say "write me a README", it **reads your project code first**, makes every design call itself (archetype, tagline formula, section order, what to highlight), runs two layers of self-check, and ships a **bilingual marketing-grade README**.
 
 The only thing it leaves to you: **the review**.
 
-> Skill is a portable format supported by Claude Code, Cursor, Codex, and other AI editors — install once, use anywhere.
+> Skill is a portable format (YAML frontmatter + Markdown) supported by Claude Code, Cursor, Codex, Trae, and other AI editors — install once, use anywhere. This repo doesn't lock you into any single tool.
 
 ---
 
@@ -26,10 +26,23 @@ The only thing it leaves to you: **the review**.
 
 ```bash
 git clone https://github.com/JVever/jvever-readme-designer.git
-cp -r jvever-readme-designer/skills/jvever-readme-designer ~/.claude/skills/
 ```
 
-Open Claude Code in your project and say:
+Install to the right location for your editor:
+
+| AI editor | Install path |
+|---|---|
+| Claude Code | `~/.claude/skills/jvever-readme-designer/` |
+| Cursor / Codex / Trae / others | See each tool's skills / custom-modes / agents docs |
+
+Simplest is a symlink:
+
+```bash
+ln -s "$(pwd)/jvever-readme-designer/skills/jvever-readme-designer" \
+      ~/.claude/skills/jvever-readme-designer
+```
+
+Open your AI editor in your project and say:
 
 ```
 > /jvever-readme-designer
@@ -203,4 +216,11 @@ Re-evaluates archetype / hero strength / trust signal state. A README is a livin
 
 ## License
 
-TBD — please add a `LICENSE` file (MIT / Apache-2.0 / BSD-3 are reasonable choices).
+[**CC BY-SA 4.0**](LICENSE) — Creative Commons Attribution-ShareAlike 4.0 International.
+
+**What this means**: you can freely copy, modify, and use this Skill commercially, **with two obligations**:
+
+1. **Attribution (BY)**: keep the original author credit, link to the source, and indicate what you changed
+2. **ShareAlike (SA)**: any derivative work (fork / modification / redistribution) must be released under the **same CC BY-SA 4.0** license — you cannot re-close a modified version or relicense it under more permissive terms
+
+Applies to every form of derivative: SaaS wrappers, commercial product embedding, and any downstream modification must remain open-source.
