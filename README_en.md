@@ -2,152 +2,205 @@
 
 # jvever-readme-designer
 
-**Designs your README as a landing page — not a doc dump.**
+**Design your README as a landing page, not a doc dump.**
 
-[![License](https://img.shields.io/badge/license-TBD-lightgrey)](#license) [![Claude Code Skill](https://img.shields.io/badge/Claude_Code-Skill-orange)](https://docs.claude.com/en/docs/claude-code/skills) [![Bilingual](https://img.shields.io/badge/lang-zh%20%2B%20en-blue)](README.md)
+[![License](https://img.shields.io/badge/license-TBD-lightgrey)](#license) [![Claude Code Skill](https://img.shields.io/badge/Claude_Code-Skill-orange)](https://docs.claude.com/en/docs/claude-code/skills) ![Bilingual](https://img.shields.io/badge/lang-zh%20%2B%20en-blue)
 
-[SKILL.md](skills/jvever-readme-designer/SKILL.md) · [CHANGELOG](CHANGELOG.md) · [中文](README.md)
+[SKILL](skills/jvever-readme-designer/SKILL.md) · [CHANGELOG](CHANGELOG.md) · [中文](README.md)
 
 </div>
 
-> A Claude Code Skill: when you say "rewrite my README," it scans your codebase first, runs a **gap-driven interview** (skipping anything it can infer), picks an archetype automatically, runs a **two-layer self-check** (5 principles + mechanical lint), then ships a bilingual marketing-grade README.
-
-```bash
-git clone https://github.com/JVever/jvever-readme-designer.git
-cp -r jvever-readme-designer/skills/jvever-readme-designer ~/.claude/skills/
-# Then open Claude Code in your project and say /jvever-readme-designer
-```
-
 ---
 
-## What is jvever-readme-designer?
+## What is this
 
-**Short version**: a methodology pack that makes Claude Code design your README **like a PM + designer + copywriter** — not like a docs writer.
+A Claude Code Skill: when you say "write me a README", it **reads your project code first**, makes every design call itself (archetype, tagline formula, section order, what to highlight), runs two layers of self-check, and ships a **bilingual marketing-grade README**.
 
-**Long version**:
+The only thing it leaves to you: **the review**.
 
-It's not a template generator (no fill-in-the-blank like readme.so), and it's not a single prompt. It's a Claude Code Skill carrying a **structured methodology**:
-
-- **Reads your code first** — manifest, commit history, existing README, entry shape, visual assets, trust signals — anything inferable is not asked
-- **Interviews you only when something is genuinely missing** (gap-driven, not a fixed questionnaire; you choose the willingness level, the model decides what to ask)
-- **Picks an archetype automatically** based on your project type (5 archetypes: developer tool / infrastructure / consumer tool / new-category education / endorsement-first)
-- **Subjective judgment** runs through **5 core principles** (first-screen decides life-or-death / job over feature list / show don't tell / restraint is professional / trust signals + alive maintenance)
-- **Objective checks** run through a **mechanical lint** (path leakage / broken links / dead placeholder hosts / bilingual silent-fail / unreplaced placeholders, etc.)
-- Default output: **bilingual** (`README.md` zh + `README_en.md` en) + a `docs/readme-image-plan.md` checklist
-
-**Result**: your README goes from "100 lines of doc-style noise" to "5 seconds to grok the product → 30 seconds to want to try → 1 minute of trust building" — i.e. a real landing page.
+> Skill is a portable format supported by Claude Code, Cursor, Codex, and other AI editors — install once, use anywhere.
 
 ---
 
 ## Quickstart
 
 ```bash
-# 1. Install the Skill
 git clone https://github.com/JVever/jvever-readme-designer.git
 cp -r jvever-readme-designer/skills/jvever-readme-designer ~/.claude/skills/
+```
 
-# 2. In your project, open Claude Code and say:
+Open Claude Code in your project and say:
+
+```
 > /jvever-readme-designer
-
-# Or trigger it in natural language:
-> Rewrite my README as a landing page
 ```
 
-<details>
-<summary>Modes (three orthogonal axes)</summary>
+Or trigger in plain language:
 
 ```
-/jvever-readme-designer                          # quick + bilingual + with-images (default)
-/jvever-readme-designer --full                   # answer more questions, prioritize quality
-/jvever-readme-designer --rewrite --en-only      # rewrite existing README, English only
-/jvever-readme-designer --patch --zh-only        # patch holes in an existing Chinese README
+> Rewrite this project's README as a landing page
+> My README is bland, give it a real front door
 ```
 
-Full reference in [SKILL.md](skills/jvever-readme-designer/SKILL.md).
-
-</details>
-
-<details>
-<summary>Persistent preferences (EXTEND.md)</summary>
-
-Copy `skills/jvever-readme-designer/EXTEND.md` into your project root and tweak defaults (always-`--full`, always-`--zh-only`, fixed emoji style, etc.).
-
-</details>
+The Skill scans, decides, drafts, and only stops to ask when it's time to review.
 
 ---
 
 ## Why this Skill
 
-### 1. Reads your code first; only asks what it can't infer
+### 1. Reads your code by default — doesn't ask what it can infer
 
-Most README generators open with "answer these 7 questions." This Skill opens with a **scan**:
+Most README tools open with "please answer these 7 questions". This Skill opens with a **scan** — manifests (package.json / Cargo.toml / pyproject.toml / go.mod / pubspec.yaml …), entry shape (CLI / library / web app / mobile / desktop / AI model / Skill), primary language, visual assets, trust signals state.
 
-- manifest files (`package.json` / `Cargo.toml` / `pyproject.toml` / `go.mod` / `Gemfile` / `pubspec.yaml` / ...)
-- entry shape (CLI / Library / Web app / Mobile / Desktop / AI Model — 11 inferred categories)
-- commit-message language, existing-README highlight phrases, trust-signal status (`LICENSE` / CI / `CHANGELOG` / `SECURITY`)
+**If the code can tell, it won't ask you.** The model only asks when missing information would noticeably degrade the result, and **never** kicks design questions like "which tagline formula" or "what section order" back to the user.
 
-**If it's inferable from code, it doesn't ask.** It only asks things that are "still genuinely unknown after reading code AND would visibly degrade README quality if skipped." With the dual-layer "dynamic gap eval × 3-tier willingness" decision, the interview is typically 0-5 questions — not a fixed 7.
+For most projects, the answer is **0 follow-up questions**.
 
-### 2. 5 archetypes, automatic decision, no one-size-fits-all
+### 2. 5 archetypes, auto-decided
 
-Different product types deserve different README skeletons:
+Different products need different README skeletons. The Skill picks for you:
 
-| Archetype | Fits | Hero pattern |
+| Archetype | Fits | Hero formula |
 |---|---|---|
-| **A Developer Tool** | CLI / SDK / library / IDE plugin | Category-defining + asciinema |
-| **B Infrastructure / Platform** | DB / BaaS / cloud / API gateway | Outcome promise + adopters wall |
-| **C Consumer / Creator Tool** | Desktop app / video-audio / writing | Identity-resonance + strong visuals |
-| **D New-Category Education** | LLM agents / novel concepts | Persona / metaphor + video demo |
-| **E Endorsement-First** | Categories with strong incumbents | User quote as H1 |
+| A Dev tool | CLI / SDK / library / IDE plugin | Category-defining + asciinema |
+| B Infrastructure | DB / BaaS / cloud / API gateway | Outcome promise + adopters wall |
+| C Consumer tool | Desktop app / AV / writing | Identity resonance + heavy visual |
+| D New-category | LLM agent / brand-new concept | Metaphor / persona + video demo |
+| E Endorsement-first | Crowded space, strong incumbents | User quote as H1 |
 
-The decision tree picks one based on manifest + entry shape + your answers, with mixing allowed (e.g. an A-type CLI can borrow D's architecture mermaid). All section templates come from [`section-library.md`](skills/jvever-readme-designer/references/section-library.md) — **single source of truth**, no duplicates.
+The decision tree picks based on manifest + entry shape, with mixing allowed (e.g. an A-type CLI borrowing D's "What is X" block). Every section template comes from one source: [section-library.md](skills/jvever-readme-designer/references/section-library.md). **Single source of truth**, no copies.
 
-### 3. Principle-driven judgment + mechanical lint
+### 3. Subjective + mechanical self-checks, kept separate
 
-**Subjective judgment** lives in [5 core principles](skills/jvever-readme-designer/references/principles.md): first-screen decides life-or-death / job over feature list / show don't tell / restraint is professional / trust signals + alive maintenance. Each principle ships with concrete "anti-anchors" as memory hooks.
+After DRAFT, two passes:
 
-**Objective checks** live in [mechanical lint rules](skills/jvever-readme-designer/references/auto-checks.md): local path leakage (`/Users/<x>/`), broken license links, the dead `via.placeholder.com`, bilingual silent-fail, unreplaced placeholders, oversized post-hero ASCII, emoji in headings — every rule is unambiguous, auto-fixable or hard-blocking.
+- **5 core principles** ([principles.md](skills/jvever-readme-designer/references/principles.md)) handle subjective calls — First screen decides life or death / Job-driven not feature-list / Show don't tell / Restraint is professional / Trust signals + alive maintenance. Each principle anchors a real anti-example as a memory hook.
+- **Mechanical lint** ([auto-checks.md](skills/jvever-readme-designer/references/auto-checks.md)) handles right-vs-wrong — local path leakage (`/Users/<x>/`), broken license link, `via.placeholder.com` (defunct), bilingual switcher silent fail, unfilled placeholders, oversized decorative ASCII, emoji-in-headings … each item is a regex or string blacklist; matches get auto-fixed or block REVIEW.
 
-> Subjective and mechanical rules **stay separate** — the v3 refactor's core insight is "judgment problems vs. lookup problems" don't belong in the same checklist. Let the model judge where it should judge; let the rules check where they can check.
+**Judgment calls vs. lookup calls — never mixed.** That separation is the heart of the v3 refactor.
 
-### 4. Bilingual by default + Chinese ecosystem ready
+### 4. Bilingual by default, China ecosystem ready
 
-Open-source projects from China usually need bilingual READMEs, but most generators only know English. This Skill defaults to **M1 Chinese-first dual-file** (`README.md` zh + `README_en.md` en) and ships a set of "domestic" sections (**conditionally rendered** — they don't show up for non-Chinese projects):
+Bilingual demand is high among Chinese open-source projects. The default is **M1 Chinese-first dual-file** (`README.md` Chinese + `README_en.md` English), **not machine-translated** — each version is rewritten in its own idiom.
 
-- Lark / WeChat / QQ community entries
-- ModelScope / WiseModel / OpenXLab model mirrors (for AI projects)
-- Aliyun ComputeNest / Sealos / Zeabur / 1Panel one-click deploy
-- Bilibili demo video embeds
-- Gitee / GitCode / Atomgit code mirrors
-- Trendshift / HelloGitHub / OSCHINA leaderboard badges
+Chinese projects auto-enable a bundle of **conditionally rendered** China-specific sections (silent for international projects): Lark / WeChat / QQ groups, ModelScope / WiseModel mirrors (AI projects), Aliyun / Sealos / Zeabur one-click deploys, Bilibili demos, Gitee / GitCode mirrors, Trendshift / HelloGitHub badges.
 
----
+### 5. Trust signals are thresholded — never look poor
 
-## Core features
+A 50-star project showing a Star History chart screams weakness. The Skill renders by threshold:
 
-- 🔍 **Scan first, ask only the gap** — manifest / commit / entry shape inferred up front; questions are project-specific, not template-fixed
-- 🎯 **5 archetypes auto-decided** — decision tree by entry shape + your answers, cross-archetype mixing allowed
-- 📐 **section-library as single source of truth** — 16 section templates in one file, no duplicates, no drift
-- 🛡 **Principles + lint, two layers of self-check** — judgment vs. lookup kept separate, neither contaminates the other
-- 🌏 **Bilingual default + Chinese ecosystem built-in** — M1 Chinese-first, Lark / ModelScope / one-click deploy conditionally rendered
-- 📦 **Image task plan generated alongside** — `docs/readme-image-plan.md` lists each image's location / purpose / dimensions / priority / making tool
-- ⚡ **`--rewrite` / `--patch` incremental modes** — never black-box rewrite. Outputs a diff report first (keep X / rewrite Y / add Z), then regenerates after your approval
+| Section | Renders when |
+|---|---|
+| Star History | ≥1k stars |
+| Contributors wall | ≥10 contributors |
+| Adopters wall | User supplies ≥3 real adopters |
+| Testimonials | User supplies ≥2 real quotes |
+
+Below threshold, nothing renders. Your README **shows what's strong, hides what isn't**.
 
 ---
 
-## Contributing
+## How it works
 
-This is an early-stage project. Feedback welcome:
+```
+READ+DECIDE  →  DRAFT  →  ⛔ REVIEW
+```
 
-- 🐛 **Issues** — wrong archetype decisions / missed lint rules / template defects
-- 💡 **Feature requests** — new archetypes / new section templates / new lint rules
-- 📖 **References improvements** — any file under `references/`
-- 💻 **PRs** welcome
+| Stage | What happens |
+|---|---|
+| **READ+DECIDE** | Local scan (manifests / assets / existing README / LICENSE / CI), **no network, no fabrication**. Auto-decides archetype, bilingual pattern, tagline formula, section order. Asks 0-3 real unknowns in one round if any. |
+| **DRAFT** | Generates `README.md` + `README_en.md` + `docs/readme-image-plan.md`. Two-layer self-check loops ≤2 rounds, auto-fixing what's safe. |
+| **⛔ REVIEW** | The only block. Shows "auto-fixed" + "⚠️ defaulted fields", waits for your read. 1-2 iterations to ship. |
 
-Change log: [CHANGELOG.md](CHANGELOG.md).
+---
+
+## Modes (3-dimensional orthogonal)
+
+```bash
+/jvever-readme-designer                          # quick + bilingual + with-images (default)
+/jvever-readme-designer --full                   # broader interview tolerance
+/jvever-readme-designer --rewrite --en-only      # rewrite existing, English only
+/jvever-readme-designer --patch --zh-only        # patch missing sections, Chinese only
+```
+
+| Dimension | Options | Default |
+|---|---|---|
+| Flow | `--quick` / `--full` / `--rewrite` / `--patch` | `--quick` |
+| Output language | `--bilingual` / `--en-only` / `--zh-only` | `--bilingual` |
+| Image plan | `--with-images` / `--no-images` | `--with-images` |
+
+Persistent overrides: copy `skills/jvever-readme-designer/EXTEND.md` into your project root.
+
+---
+
+## When *not* to use
+
+| Situation | Better path |
+|---|---|
+| One typo / one broken link | Just Edit |
+| Pure dotfiles / awesome-list (no code) | Plain markdown |
+| Someone else's project (you don't maintain) | Don't run — not your front door |
+| You want CHANGELOG / API docs / wiki | Use the right tool |
+| Personal reference (not public) | Minimal structure is fine |
+
+---
+
+## Project structure
+
+```
+jvever-readme-designer/
+├── README.md                                # Chinese
+├── README_en.md                             # English (this file)
+├── CHANGELOG.md
+├── docs/
+│   └── readme-image-plan.md                 # Image task plan
+├── research/
+│   └── synthesis.md                         # 60+ project survey
+├── assets/                                  # Visual asset placeholders
+└── skills/
+    └── jvever-readme-designer/
+        ├── SKILL.md                         # Main entry, 3-stage workflow
+        ├── EXTEND.md                        # User preference template
+        └── references/
+            ├── principles.md                # 5 core principles
+            ├── auto-checks.md               # Mechanical lint
+            ├── archetypes.md                # 5 archetypes + decision tree
+            ├── tagline-formulas.md          # 6 tagline formulas
+            ├── section-library.md           # Section templates (single source)
+            ├── trust-signals.md             # Trust signal catalog
+            ├── bilingual-patterns.md        # Bilingual patterns
+            └── image-plan.md                # Image plan generation rules
+```
+
+---
+
+## How it was built
+
+5 parallel sub-agents surveyed **60+ open source READMEs** (Cursor, Aider, OpenHands, LangChain, Vercel, Supabase, PostHog, ChatTTS, FastGPT, Dify, Lobe Chat, MaxKB …) and product landing pages (Linear, Stripe, Raycast, Notion, Arc, Warp …), plus 7 design methodology sources (Standard README spec, Tom Preston-Werner's RDD, StoryBrand SB7, Jobs-to-be-Done, NN/G F-pattern research …).
+
+Then iterated through 4 independent reviewer agents (design rationality / real-world simulation / anti-pattern audit / trigger & naming review) + one verification round. Full trace in [research/synthesis.md](research/synthesis.md).
+
+Key design influences:
+- **Standard README spec** — Richard Litt
+- **README Driven Development** — Tom Preston-Werner (2010)
+- **StoryBrand SB7** — Donald Miller
+- **Jobs-to-be-Done** — Tony Ulwick / Christensen
+- **Cognitive science** — F-pattern reading (NN/G), choice overload (Iyengar/Lepper), peak-end rule (Kahneman)
+
+---
+
+## Maintenance
+
+Every release / every 3 months / star count doubling — run:
+
+```
+> /jvever-readme-designer --rewrite
+```
+
+Re-evaluates archetype / hero strength / trust signal state. A README is a living product page; six months without an update reads as dead.
 
 ---
 
 ## License
 
-License: TBD (suggest adding a `LICENSE` file, MIT recommended).
+TBD — please add a `LICENSE` file (MIT / Apache-2.0 / BSD-3 are reasonable choices).
