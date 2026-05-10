@@ -136,6 +136,28 @@ Tagline 是 README 第二行的灵魂。**字数约束**：中文 ≤30 汉字 /
 
 ---
 
+## Tagline 硬约束：不绑定单一 AI 编辑器品牌
+
+**针对 Skill / Prompt 包 / Agent 类项目**：Skill 是 Claude Code / Cursor / Codex / Trae 等 AI 编辑器的**通用便携格式**——tagline 和"一句话定义"段**不要写 "Claude Code Skill"** / "Cursor Skill" / "Codex Skill" 等绑定平台的表述。
+
+**为什么**：
+- 写 "Claude Code Skill" 让用 Cursor 的读者立刻误以为不适用 → 缩小覆盖面
+- "Skill" 已经是事实标准类别词，不需要前缀澄清
+- 这违反"自我引用一致性"——hero 写专属、后文又改口"其实通用"，读者立即识破
+
+**正确做法**：
+- Tagline / 一句话定义聚焦**能力本身**（"把 README 当 landing page 来设计 / 读你的代码、生成营销级 README"）
+- 如需说明覆盖面，**只在 hero 之后用 1 行 blockquote** 说"Skill 在 Claude Code / Cursor / Codex 等通用——下面以 X 为例"
+- Quickstart 给具体命令时**可以**指定一个目标平台（必须指定才能给出可执行命令）——但 hero 区不要
+
+**反例**：
+- ❌ "读你的代码、生成 README 的 Claude Code Skill" — 平台标签压住了能力
+- ❌ "装进 Claude Code 的一个 Skill" — 又一次绑定
+- ✅ "把 README 当 landing page 来设计" — 聚焦能力
+- ✅ "读你的代码、问 0-3 个问题、生成营销级 README" — 聚焦动作 + 收益
+
+---
+
 ## Tagline 自检：避免抽象定义
 
 不强求"画面感"——CLI / 库 / Skill 这类无 GUI 产品，硬塞画面词容易催生"让你的 React 飞起来"这种伪文学化 tagline，反而比"12kb / 0 依赖 / 支持 SSR"差。

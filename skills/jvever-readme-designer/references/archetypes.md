@@ -23,17 +23,30 @@
 - "Linear is the product development system for teams and agents"
 - "Bun is a fast all-in-one JavaScript runtime"
 
-### Section 顺序
-1. Hero（logo + tagline + badges + nav + 1 张 demo GIF / asciinema）
-2. **What is X**（30 字定义）
-3. **Quick start**（一行命令优先）
-4. **Features**（5-8 个，每个带截图/代码片段）
-5. **Why X**（vs alternatives，对比表 or 文字段）
-6. **Adopters / Used by**（如有 logo 墙）
-7. **Testimonials**（如有名人引言）
-8. **Documentation** 外链
-9. **Contributing**
-10. **License**
+### Section 顺序（克制优先，钩子前置）
+
+**默认骨架（5-7 段，不要更多）**：
+
+1. **Hero**（logo + H1 + tagline + ≤3 枚 badge + nav）
+2. **一句话定义** — 1 段，紧接 Hero 之后说"这是什么 / 你说一句它做什么 / 你只做什么"
+3. **它能帮你做到 / Why X**（**4-6 emoji bullet × 每条 1-2 行**——这是钩子，必须在 Quickstart 之前）
+4. **Quickstart**（1-3 行命令；其他模式折叠）
+5. **License**
+
+**条件渲染（仅满足条件才出）**：
+- Adopters / Testimonials / Star History / Numbers / Contributors（按 trust-signals 阈值）
+- Contributing 段（按 §14 邀请信号）
+- 国内特有元素（按主语种为中文 + 用户确认）
+
+**默认不生成的段（除非用户明确要求或有强信号）**：
+- ❌ 项目结构 / 文件树 — GitHub 自带，重复
+- ❌ "怎么做出来的" / 研究过程 / 设计理念 — 作者自嗨，不是 landing page 内容
+- ❌ 维护提醒 / "每次 release 跑一遍 X" — 这是给已用户的 FAQ，应放在 SKILL.md 内部
+- ❌ "什么时候不用本工具" — 防御性写作；用户决定要用时不会反问"我是不是用错场景"
+- ❌ "How it works" 详细流程图 — 除非 archetype 是 D 新品类需要教育，A 型不需要
+- ❌ 详细 architecture 图 — 除非 archetype 是 B 基础设施
+
+**判定方法**：每个 ## 段过一道"删了这段，目标读者会损失什么具体能帮他做决策的信息？"——答不出 → 删整段。原则 4 克制即专业的硬应用。
 
 ### 关键武器
 - 代码片段（show, don't tell）
