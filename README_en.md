@@ -4,7 +4,7 @@
 
 **Design your README as a landing page, not a doc dump.**
 
-[![License: CC BY-SA 4.0](https://img.shields.io/badge/license-CC%20BY--SA%204.0-lightgreen)](LICENSE) ![Portable Skill](https://img.shields.io/badge/Skill-portable-orange) ![Bilingual](https://img.shields.io/badge/lang-zh%20%2B%20en-blue)
+[![License: CC BY-SA 4.0](https://img.shields.io/badge/license-CC%20BY--SA%204.0-lightgrey)](LICENSE) [![Claude Code Skill](https://img.shields.io/badge/Claude_Code-Skill-orange)](https://docs.claude.com/en/docs/claude-code/skills) ![Bilingual](https://img.shields.io/badge/lang-zh%20%2B%20en-blue)
 
 [SKILL](skills/jvever-readme-designer/SKILL.md) · [CHANGELOG](CHANGELOG.md) · [中文](README.md)
 
@@ -14,11 +14,11 @@
 
 ## What is this
 
-A **portable AI Skill**: when you say "write me a README", it **reads your project code first**, makes every design call itself (archetype, tagline formula, section order, what to highlight), runs two layers of self-check, and ships a **bilingual marketing-grade README**.
+A Claude Code Skill: when you say "write me a README", it **reads your project code first**, makes every design call itself (archetype, tagline formula, section order, what to highlight, bilingual strategy), runs two layers of self-check, and ships a **bilingual marketing-grade README** plus an image task plan.
 
 The only thing it leaves to you: **the review**.
 
-> Skill is a portable format (YAML frontmatter + Markdown) supported by Claude Code, Cursor, Codex, Trae, and other AI editors — install once, use anywhere. This repo doesn't lock you into any single tool.
+> Skill is a portable format supported by Claude Code, Cursor, Codex, and other AI editors — install once, use anywhere.
 
 ---
 
@@ -26,23 +26,10 @@ The only thing it leaves to you: **the review**.
 
 ```bash
 git clone https://github.com/JVever/jvever-readme-designer.git
+cp -r jvever-readme-designer/skills/jvever-readme-designer ~/.claude/skills/
 ```
 
-Install to the right location for your editor:
-
-| AI editor | Install path |
-|---|---|
-| Claude Code | `~/.claude/skills/jvever-readme-designer/` |
-| Cursor / Codex / Trae / others | See each tool's skills / custom-modes / agents docs |
-
-Simplest is a symlink:
-
-```bash
-ln -s "$(pwd)/jvever-readme-designer/skills/jvever-readme-designer" \
-      ~/.claude/skills/jvever-readme-designer
-```
-
-Open your AI editor in your project and say:
+Open Claude Code in your project and say:
 
 ```
 > /jvever-readme-designer
@@ -55,7 +42,7 @@ Or trigger in plain language:
 > My README is bland, give it a real front door
 ```
 
-The Skill scans, decides, drafts, and only stops to ask when it's time to review.
+The Skill scans, decides, drafts, and **only stops to ask when it's time to review**.
 
 ---
 
@@ -75,13 +62,13 @@ Different products need different README skeletons. The Skill picks for you:
 
 | Archetype | Fits | Hero formula |
 |---|---|---|
-| A Dev tool | CLI / SDK / library / IDE plugin | Category-defining + asciinema |
-| B Infrastructure | DB / BaaS / cloud / API gateway | Outcome promise + adopters wall |
-| C Consumer tool | Desktop app / AV / writing | Identity resonance + heavy visual |
-| D New-category | LLM agent / brand-new concept | Metaphor / persona + video demo |
-| E Endorsement-first | Crowded space, strong incumbents | User quote as H1 |
+| **A** Dev tool | CLI / SDK / library / IDE plugin / Skill | Category-defining + real command demo |
+| **B** Infrastructure | DB / BaaS / cloud / API gateway | Outcome promise + adopters wall |
+| **C** Consumer tool | Desktop app / AV / writing | Identity resonance + heavy visual |
+| **D** New-category | LLM agent / brand-new concept | Metaphor / persona + video demo |
+| **E** Endorsement-first | Crowded space, strong incumbents | User quote as H1 |
 
-The decision tree picks based on manifest + entry shape, with mixing allowed (e.g. an A-type CLI borrowing D's "What is X" block). Every section template comes from one source: [section-library.md](skills/jvever-readme-designer/references/section-library.md). **Single source of truth**, no copies.
+The decision tree picks based on manifest + entry shape; archetypes that need credentials (e.g. E needs real testimonials) gracefully fall back to A. Every section template comes from one source: [section-library.md](skills/jvever-readme-designer/references/section-library.md). **Single source of truth**, no copies.
 
 ### 3. Subjective + mechanical self-checks, kept separate
 
@@ -108,6 +95,7 @@ A 50-star project showing a Star History chart screams weakness. The Skill rende
 | Contributors wall | ≥10 contributors |
 | Adopters wall | User supplies ≥3 real adopters |
 | Testimonials | User supplies ≥2 real quotes |
+| Contributing block | Invite signals exist (CoC / template / multi-author / existing "PR welcome" copy) |
 
 Below threshold, nothing renders. Your README **shows what's strong, hides what isn't**.
 
@@ -165,6 +153,7 @@ jvever-readme-designer/
 ├── README.md                                # Chinese
 ├── README_en.md                             # English (this file)
 ├── CHANGELOG.md
+├── LICENSE                                  # CC BY-SA 4.0
 ├── docs/
 │   └── readme-image-plan.md                 # Image task plan
 ├── research/
@@ -189,7 +178,7 @@ jvever-readme-designer/
 
 ## How it was built
 
-5 parallel sub-agents surveyed **60+ open source READMEs** (Cursor, Aider, OpenHands, LangChain, Vercel, Supabase, PostHog, ChatTTS, FastGPT, Dify, Lobe Chat, MaxKB …) and product landing pages (Linear, Stripe, Raycast, Notion, Arc, Warp …), plus 7 design methodology sources (Standard README spec, Tom Preston-Werner's RDD, StoryBrand SB7, Jobs-to-be-Done, NN/G F-pattern research …).
+5 parallel sub-agents surveyed **60+ open source READMEs** (Cursor, Aider, OpenHands, LangChain, Vercel, Supabase, PostHog, ChatTTS, FastGPT, Dify, Lobe Chat, MaxKB …) and product landing pages (Linear, Stripe, Raycast, Notion, Arc, Warp …), plus 7 design methodology sources.
 
 Then iterated through 4 independent reviewer agents (design rationality / real-world simulation / anti-pattern audit / trigger & naming review) + one verification round. Full trace in [research/synthesis.md](research/synthesis.md).
 
@@ -216,11 +205,4 @@ Re-evaluates archetype / hero strength / trust signal state. A README is a livin
 
 ## License
 
-[**CC BY-SA 4.0**](LICENSE) — Creative Commons Attribution-ShareAlike 4.0 International.
-
-**What this means**: you can freely copy, modify, and use this Skill commercially, **with two obligations**:
-
-1. **Attribution (BY)**: keep the original author credit, link to the source, and indicate what you changed
-2. **ShareAlike (SA)**: any derivative work (fork / modification / redistribution) must be released under the **same CC BY-SA 4.0** license — you cannot re-close a modified version or relicense it under more permissive terms
-
-Applies to every form of derivative: SaaS wrappers, commercial product embedding, and any downstream modification must remain open-source.
+[CC BY-SA 4.0](LICENSE) — free to reuse, modify, and use commercially, **derivative works must credit and share-alike**.
