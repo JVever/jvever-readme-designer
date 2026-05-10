@@ -2,47 +2,57 @@
 
 # jvever-readme-designer
 
-**Read your code, ask at most 3 questions, ship a marketing-grade bilingual README.**
+**Write your README like a front door — it reads your code, decides for you, ships ZH + EN**
 
-[![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg)](LICENSE) [![Type: Skill](https://img.shields.io/badge/type-Skill-blue.svg)](skills/jvever-readme-designer/SKILL.md)
+[![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC_BY--SA_4.0-lightgrey.svg)](LICENSE)
 
-[SKILL.md](skills/jvever-readme-designer/SKILL.md) · [CHANGELOG](CHANGELOG.md) · [中文](README.md)
+[中文](README.md)
 
 </div>
 
-> Treat README as a **landing page**, not a doc dump. The KPI is keeping a visitor past five seconds and getting them to `git clone` — not enumerating every feature.
+> A portable README-writing Skill. Drop it into Claude Code / Cursor / Codex / Trae or similar AI editors — describe your intent in plain words; no command to memorize.
 
-> Works as a Skill across Claude Code / Cursor / Codex and similar AI editors — Claude Code is used as the example below.
+---
 
 ## What you get
 
-- 🧭 **5 archetypes picked for you** — CLI tool / infrastructure / creator app / new category / endorsement-first each have their own structure; the decision tree reads your manifest and chooses, no one-size-fits-all
-- ✍️ **0–3 questions, then it works** — anything inferable from code is not asked; license, real adopter names, and a few subjective tonal calls are the only things asked, in a single round
-- 🌏 **Chinese and English drafted together** — not machine translation; each version follows its own language's conventions and may even reorder the selling points
-- 🛡 **Auto-fixes the verifiable, escalates the judgement calls** — path leaks, broken links, unreplaced placeholders are silently fixed; tagline strength and section trims are surfaced for your review
-- 📋 **Image task list as a side product** — `docs/readme-image-plan.md` lists hero / logo / screenshots with priority and recommended tooling
+- 🎯 **Above-the-fold sells** — name, one-line pitch, first command sit above the scroll. A visitor decides in 5 seconds whether to keep reading.
+- 🧠 **It won't ask what it can read** — `package.json`, `Cargo.toml`, your file tree are inferred for free. It only opens its mouth when something genuinely affects the output and can't be inferred (which license, real customer logos, tone serious or warm).
+- 🧱 **Different projects need different bones** — a CLI, a library, an infra platform, a desktop creator tool, a brand-new-category AI project — pick the wrong skeleton and the front door collapses. It picks per project.
+- 🛡 **Mechanical errors get fixed, judgment calls get flagged** — path leaks like `/Users/yourname/...`, dead placeholder image hosts, language toggles that reload the same page — those it cleans up itself. Anything it can't decide cleanly is marked ⚠️ for you to settle in the review step.
+- 🌏 **The Chinese version isn't translated** — both languages are written from scratch, the Chinese rewritten for Chinese reading habits, not machine-translated. Language switch lives in exactly one place, never duplicated.
 
 ## Quick start
 
-Drop the Skill folder into Claude Code's skills directory (`~/.claude/skills/` for global or `.claude/skills/` per project), then in any repo say:
+Copy the `skills/jvever-readme-designer/` folder into your AI editor's skill directory (for Claude Code it's `~/.claude/skills/`; check your editor's docs otherwise). Then ask in plain words at your project root:
 
 ```
-/jvever-readme-designer
+write me a README
+redo the README
+I'm open-sourcing this — design the GitHub front page
 ```
 
-Under 30 seconds for a bilingual README plus the image plan.
+It scans the project, makes every design call itself, and hands you a draft. Your only job is the final review — say "ok" or "change that paragraph."
+
+You end up with 3 files:
+
+- `README.md` — Chinese, always
+- `README_en.md` — English, default-on, can be turned off
+- `docs/readme-image-plan.md` — image task list: each image gets a path, purpose, recommended size, and how to make it
+
+**This repo is one of its outputs — the README you're reading was written by it.**
 
 <details>
-<summary>Other modes / flow flags</summary>
+<summary>Invocation flags</summary>
 
 ```
-/jvever-readme-designer --rewrite       # keep your gems, rewrite weak sections, fill gaps
-/jvever-readme-designer --patch         # only patch the holes, leave the rest alone
-/jvever-readme-designer --en-only       # English only
-/jvever-readme-designer --full          # higher tolerance for questions (default quick is mostly 0)
+/jvever-readme-designer                       # default: auto-decides whether to ask, ZH + EN
+/jvever-readme-designer --full                # answer a few more, get a closer fit
+/jvever-readme-designer --rewrite --en-only   # rewrite an existing README, English only
+/jvever-readme-designer --patch --zh-only     # patch holes in an existing Chinese README
 ```
 
-Full flag reference and design principles in [`SKILL.md`](skills/jvever-readme-designer/SKILL.md).
+`--quick` / `--full` / `--rewrite` / `--patch` are mutually exclusive; combine freely with `--zh-only` / `--en-only` / `--bilingual`.
 
 </details>
 

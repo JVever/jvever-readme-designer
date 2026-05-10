@@ -2,47 +2,57 @@
 
 # jvever-readme-designer
 
-**读你的代码、最多问 3 个问题、生成营销级双语 README**
+**把 README 当门面写——读你的代码、自动决策、产出中英两份**
 
-[![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg)](LICENSE) [![Type: Skill](https://img.shields.io/badge/type-Skill-blue.svg)](skills/jvever-readme-designer/SKILL.md)
+[![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC_BY--SA_4.0-lightgrey.svg)](LICENSE)
 
-[SKILL.md](skills/jvever-readme-designer/SKILL.md) · [CHANGELOG](CHANGELOG.md) · [English](README_en.md)
+[English](README_en.md)
 
 </div>
 
-> 把 README 当 **landing page** 来设计，不是文档目录。KPI 是 5 秒留住访客、让他想 `git clone`——不是把所有功能写全。
+> 一个写 README 的通用 Skill。装进 Claude Code / Cursor / Codex / Trae 这类 AI 编辑器，用一句话描述意图即触发——不必记命令。
 
-> Skill 在 Claude Code / Cursor / Codex 等 AI 编辑器通用——下面以 Claude Code 为例。
+---
 
 ## 它能帮你做到
 
-- 🧭 **5 种骨架自动选** — CLI / 基础设施 / 创作者工具 / 新品类 / 第三方背书各有套路，决策器读 manifest 自动定，不一刀切
-- ✍️ **0-3 个问题就动手** — 能从代码推断的事不问；只在 license / 大客户名单 / 主观调性这类客观未知时一次性追问
-- 🌏 **中英双版同时出** — 不是机翻，按各自语言习惯重写文案、卖点排序也可以不同
-- 🛡 **错了自己修，可疑的让你定** — 路径泄露、broken link、占位符没替换这类"对错明确"的自动修；tagline 力度、章节取舍这类主观判断升级到你审稿
-- 📋 **图片任务清单顺手生成** — `docs/readme-image-plan.md` 列出 hero / logo / 截图清单，告诉你优先级和制作工具
+- 🎯 **首屏定生死** —— 项目名、一句话定位、第一行命令在折叠线以上，访客不滚动就能判断要不要继续看
+- 🧠 **能猜到的不问你** —— 自己读 `package.json` / `Cargo.toml` / 代码结构去推断；只在确实推不出且会显著影响产出的客观未知（License 选哪个 / 真有客户名单吗 / 调性偏严肃还是带人情味）才开口
+- 🧱 **不同项目用不同骨架** —— CLI / 库 / 基础设施 / 桌面创作工具 / 全新概念项目，套错骨架门面就崩；它按项目类型自动选
+- 🛡 **机械错自己改、判断错让你定** —— 路径里漏出 `/Users/你/...`、占位图服务挂掉、双语切换条点了刷新本页——这类先自己修；拿不准的留 ⚠️ 标记在最后审稿时让你拍板
+- 🌏 **中文不是翻译出来的** —— 中英两份对称生成，但中文按中文表达习惯重写不机翻；语言切换全篇只放一处，绝不重复
 
 ## 快速开始
 
-把 Skill 文件夹放到 Claude Code 的 skills 目录（系统级 `~/.claude/skills/` 或项目级 `.claude/skills/`），然后在任意项目里说：
+把 `skills/jvever-readme-designer/` 整个文件夹拷到你的 AI 编辑器的 Skill 目录（Claude Code 是 `~/.claude/skills/`，其他编辑器看自己的文档），然后在你的项目根目录用一句话开口：
 
 ```
-/jvever-readme-designer
+帮我写个 README
+重做一遍 README
+我要发开源了，给我做下 GitHub 门面
 ```
 
-不到 30 秒就能拿到中英双版 README + 图片任务清单。
+它会先扫项目、把所有设计选择都做完、给你一份草稿。你只在最后审稿时说"OK"或"那段改成 Y"。
+
+跑完会得到 3 份产物：
+
+- `README.md` —— 中文版，必出
+- `README_en.md` —— 英文版，默认出，可关
+- `docs/readme-image-plan.md` —— 图片任务清单（每张图给出路径、用途、推荐尺寸、做法建议）
+
+**本仓库自己就是它的产物——你现在读的这份 README 是它写的。**
 
 <details>
-<summary>其他模式 / 流程参数</summary>
+<summary>支持的调用方式</summary>
 
 ```
-/jvever-readme-designer --rewrite       # 保留金句、改弱段、补缺漏
-/jvever-readme-designer --patch         # 只补窟窿，不重写
-/jvever-readme-designer --en-only       # 仅英文
-/jvever-readme-designer --full          # 追问宽容度更高（默认 quick 多数 0 追问）
+/jvever-readme-designer                       # 默认：自动判断要不要追问，中英双版都出
+/jvever-readme-designer --full                # 想多答几个问题、希望产出更贴你想法时
+/jvever-readme-designer --rewrite --en-only   # 重写已有 README、只要英文版
+/jvever-readme-designer --patch --zh-only     # 只补现有中文 README 的窟窿
 ```
 
-完整参数与设计原则见 [`SKILL.md`](skills/jvever-readme-designer/SKILL.md)。
+`--quick` / `--full` / `--rewrite` / `--patch` 四选一，可与 `--zh-only` / `--en-only` / `--bilingual` 自由组合。
 
 </details>
 
