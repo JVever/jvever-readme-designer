@@ -1,6 +1,6 @@
 # README 图片任务清单
 
-> 由 `jvever-readme-designer` 在 minimal-asset 模式下生成。当前项目极早期（7 commits、无 logo、无截图、单人维护），所有任务都是 `nice-to-have`——不让 TODO 吓跑你。
+> 由 `jvever-readme-designer` 在 minimal-asset 模式下生成。当前项目极早期（12 commits、无 logo、无截图、单人维护、CC BY-SA 4.0），所有任务都是 `nice-to-have`——不让 TODO 吓跑你。
 
 按优先级实现即可，做完后把对应文件放到 `assets/`，回 README 加引用即可。
 
@@ -32,7 +32,7 @@
 
 ### 2. `assets/hero-demo.gif`（流程演示）
 
-**位置**：Hero 区 tagline 之后、Quickstart 之前
+**位置**：当前 README 在 minimal-asset 模式下未放 hero 视觉块；做出来后插在 features 之上，或替代 features 上方那条 blockquote
 **为什么**：直接看 3 阶段流程跑起来比文字描述快 10 倍——尤其能展示「0 个追问」这个最反常识的卖点
 **建议尺寸**：1200×600（16:9）
 **建议时长**：≤ 30 秒

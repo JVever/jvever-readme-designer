@@ -2,63 +2,50 @@
 
 # jvever-readme-designer
 
-**Design your README as a landing page, not a doc dump.**
+**Read your code, ask at most 3 questions, ship a marketing-grade bilingual README.**
 
-[![License: CC BY-SA 4.0](https://img.shields.io/badge/license-CC%20BY--SA%204.0-lightgrey)](LICENSE) ![Bilingual](https://img.shields.io/badge/lang-zh%20%2B%20en-blue)
+[![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg)](LICENSE) [![Type: Skill](https://img.shields.io/badge/type-Skill-blue.svg)](skills/jvever-readme-designer/SKILL.md)
 
-[SKILL](skills/jvever-readme-designer/SKILL.md) · [CHANGELOG](CHANGELOG.md) · [中文](README.md)
+[SKILL.md](skills/jvever-readme-designer/SKILL.md) · [CHANGELOG](CHANGELOG.md) · [中文](README.md)
 
 </div>
 
----
+> Treat README as a **landing page**, not a doc dump. The KPI is keeping a visitor past five seconds and getting them to `git clone` — not enumerating every feature.
 
-A Skill: tell it "write me a README", it reads your project code, makes every design call itself, and ships a bilingual marketing-grade README. **All you do is review.**
+> Works as a Skill across Claude Code / Cursor / Codex and similar AI editors — Claude Code is used as the example below.
 
-> Skill is a portable format supported across Claude Code, Cursor, Codex, and other AI editors — examples below use Claude Code.
+## What you get
 
----
+- 🧭 **5 archetypes picked for you** — CLI tool / infrastructure / creator app / new category / endorsement-first each have their own structure; the decision tree reads your manifest and chooses, no one-size-fits-all
+- ✍️ **0–3 questions, then it works** — anything inferable from code is not asked; license, real adopter names, and a few subjective tonal calls are the only things asked, in a single round
+- 🌏 **Chinese and English drafted together** — not machine translation; each version follows its own language's conventions and may even reorder the selling points
+- 🛡 **Auto-fixes the verifiable, escalates the judgement calls** — path leaks, broken links, unreplaced placeholders are silently fixed; tagline strength and section trims are surfaced for your review
+- 📋 **Image task list as a side product** — `docs/readme-image-plan.md` lists hero / logo / screenshots with priority and recommended tooling
 
-## What it does for you
+## Quick start
 
-- 🔍 **Zero follow-ups by default** — reads your manifests, commits, and entry shape; never asks what code can tell. For most projects, 0 questions.
-- 🎯 **5 archetypes, auto-picked** — CLI / infrastructure / consumer tool / new-category / endorsement-first, each with its own hero formula. No one-size-fits-all.
-- 🛡 **Auto-fixes what's wrong, flags what's debatable** — path leakage, broken links, decorative ASCII, emoji-in-headings get fixed silently; subjective calls surface as ⚠️ for your review.
-- 🌏 **Bilingual + China ecosystem on auto** — Lark / ModelScope / one-click deploys / Bilibili etc. render only when the project is actually Chinese-facing; silent for international projects.
-
----
-
-## Quickstart
-
-```bash
-git clone https://github.com/JVever/jvever-readme-designer.git
-cp -r jvever-readme-designer/skills/jvever-readme-designer ~/.claude/skills/
-```
-
-Open Claude Code in your project and say:
+Drop the Skill folder into Claude Code's skills directory (`~/.claude/skills/` for global or `.claude/skills/` per project), then in any repo say:
 
 ```
-> /jvever-readme-designer
+/jvever-readme-designer
 ```
 
-It scans, decides, drafts `README.md` + `README_en.md` + `docs/readme-image-plan.md`, and **only stops to ask when it's time to review**.
+Under 30 seconds for a bilingual README plus the image plan.
 
 <details>
-<summary>Other modes / persistent preferences</summary>
+<summary>Other modes / flow flags</summary>
 
-```bash
-/jvever-readme-designer --full               # broader interview tolerance
-/jvever-readme-designer --rewrite --en-only  # rewrite existing, English only
-/jvever-readme-designer --patch --zh-only    # patch missing sections, Chinese only
+```
+/jvever-readme-designer --rewrite       # keep your gems, rewrite weak sections, fill gaps
+/jvever-readme-designer --patch         # only patch the holes, leave the rest alone
+/jvever-readme-designer --en-only       # English only
+/jvever-readme-designer --full          # higher tolerance for questions (default quick is mostly 0)
 ```
 
-Copy `skills/jvever-readme-designer/EXTEND.md` into your project root to override defaults permanently.
-
-For Cursor / Codex / other AI editors, check their docs for the Skill install path — the mechanism is the same.
+Full flag reference and design principles in [`SKILL.md`](skills/jvever-readme-designer/SKILL.md).
 
 </details>
 
----
-
 ## License
 
-[CC BY-SA 4.0](LICENSE) — free to use, modify, and ship commercially; **derivatives must credit and stay open under the same license**.
+[CC BY-SA 4.0](LICENSE) © 2026 JVever
