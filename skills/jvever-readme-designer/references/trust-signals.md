@@ -37,6 +37,7 @@ README 的核心 KPI 之一是建立信任："项目能用、还活着、社区�
 | Star History | 项目 ≥1k stars | `section-library.md` §11 |
 | Contributors 头像墙 | 项目 ≥10 contributors | `section-library.md` §12 |
 | Sponsors | 用户明确说有 OpenCollective / GitHub Sponsors / 私募赞助商 | `section-library.md` §13 |
+| Contributing 段 | **任一邀请信号**（CONTRIBUTING.md / CODE_OF_CONDUCT.md / Issue/PR template / 现有 README 含"欢迎贡献"字样 / commit > 50 且作者 > 1 / 用户明确说欢迎贡献）| `section-library.md` §14 |
 | 国内社群（微信/飞书 QR） | SCAN 检测中文为主语种 + 用户在 INTERVIEW 确认愿意放群 | `section-library.md` §15.1 |
 
 **不满足条件的 section 不渲染**——避免"50 stars 项目放 Star History 反成显穷"，"3 个贡献者放 contributors 头像墙不饱满"。

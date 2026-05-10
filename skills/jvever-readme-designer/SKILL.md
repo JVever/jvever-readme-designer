@@ -132,6 +132,7 @@ READ+DECIDE → DRAFT → ⛔ REVIEW
 | **Feature 呈现形式** | A/D 用 emoji bullet，B 用 checkbox，C 用卡片网格，E 用引言墙 |
 | **Trust signal 渲染** | 按 [`trust-signals.md`](references/trust-signals.md) 条件渲染表自动判定 |
 | **Badge 组合** | 按 archetype 推荐组合 + 实际可用的 trust signal |
+| **Contributing 段是否渲染** | **默认不渲染**——开源 ≠ 欢迎贡献。仅在邀请信号命中时出（CONTRIBUTING.md / CODE_OF_CONDUCT.md / Issue 或 PR template / 现有 README 含"欢迎贡献"字样 / commit > 50 且作者 > 1）。所有信号都缺 → 不写贡献段，README tone 保持"作者把东西放出来给你用" |
 | **国内特有元素** | 主语种为中文 + 用户没显式说"国际化为主" → 启用相关 section（条件渲染） |
 
 #### 1.3 缺口判定与可选追问
@@ -258,6 +259,7 @@ READ+DECIDE → DRAFT → ⛔ REVIEW
 | Star History | 项目 ≥1k stars |
 | Contributors 头像墙 | 项目 ≥10 contributors |
 | Sponsors | 用户明确说有 OpenCollective / GitHub Sponsors |
+| **Contributing 段** | **任一邀请信号**：CONTRIBUTING.md / CODE_OF_CONDUCT.md / Issue/PR template 存在；或现有 README 含"欢迎贡献" / "PR welcome"；或 commit > 50 且作者 > 1；或用户明确说欢迎贡献 |
 | 国内社群（微信/飞书 QR） | SCAN 检测中文优先 + 用户提供二维码 |
 
 **不满足条件的 section 不渲染**——避免"50 stars 项目放 Star History 反成显穷"。
@@ -327,16 +329,24 @@ DRAFT 完成后必须跑两层自检，**全部通过**才能进入 REVIEW。
 | 原则 | 自检问 |
 |---|---|
 | 1. 首屏定生死 | Hero 区 5 秒能答清三问吗？没有装饰物喧宾夺主吗？ |
-| 2. 基于 Job 而非 feature 列表 | 写的是用户 job/痛点，还是 feature dump？倒金字塔顺序对吗？ |
-| 3. Show, don't tell | 每个 claim 配证据了吗？形容词都兜底了吗？ |
+| 2. 基于 Job 而非 feature 列表 | 写的是用户 job/痛点，还是 feature dump？倒金字塔顺序对吗？**features 段有没有把"品类应有的基础功能"当卖点列？** |
+| 3. Show, don't tell | 每个 claim 配证据了吗？形容词都兜底了吗？**每条"X 可以/支持/自动 Y"声明都回代码 grep 验证过了吗？** |
 | 4. 克制即专业 | 每个元素能回答"删了读者损失什么"吗？冗余/装饰/低频英文有吗？ |
 | 5. 信任信号 + 鲜活 | 信号有 ≥3 个吗？没用条件渲染过滤吗？命令鲜活吗？ |
 
+##### 事实 sweep（嵌入第二层，不另起新层）
+
+原则 3 的 "Show, don't tell" 自检包含一道**强制纪律**：每条"X 可以 / 支持 / 自动 Y"形式的产品声明，DRAFT 写完后**回代码 grep 一次**确认行为属实。
+
+- 模型容易**抄 sub-agent / SCAN 阶段总结**里的产品声明，把矛盾描述糅在一起
+- **听起来对**的声明往往是**部分对**（功能存在但实际行为不一样），读者对 README 默认信任，建错心智模型代价高
+- 操作纪律：**不允许仅凭项目印象写产品声明**——每条声明对应一段实际代码，写不出对应代码段就降级表述或删除
+
 **分流**：
-- 自动可修（emoji 满天飞、多余 div、装饰 ASCII、低频英文、broken link）→ **直接修**，记入"已自动修复"
+- 自动可修（emoji 满天飞、多余 div、装饰 ASCII、低频英文、broken link、事实表述与代码不符）→ **直接修**，记入"已自动修复"
 - 主观判断需要用户拿主意（如"tagline 不够吸引"）→ **暂存到 REVIEW 阶段**作为 ⚠️ 提示，**不在 DRAFT 阶段问用户**
 
-**循环上限**：自动修循环 ≤ 2 轮；2 轮后剩余强制升级 REVIEW。
+**循环上限**：自检循环（含机械层 + 主观层 + 任何后续可能加的子检查）**总共 ≤ 2 轮**；2 轮后剩余强制升级 REVIEW。**不允许**以"自检"名义引入第三层、第四层无限内省——少而准是 DRAFT 自检的元规则。
 
 ### 阶段 3：⛔ REVIEW（用户审稿，唯一 BLOCKING）
 
@@ -355,6 +365,17 @@ DRAFT 完成后必须跑两层自检，**全部通过**才能进入 REVIEW。
 **不要追问"你还有别的意见吗"**——用户没说就是没意见。
 
 按用户的具体反馈迭代 1-2 轮。**不要用户没说就主动改**（避免 over-engineering）。
+
+##### 同义词族 sweep（迭代纪律）
+
+用户指出某个词不好时，**修这一处的同时连同一起扫同义词族**——但**不主动改其他段落的措辞**。区分清楚：
+
+- ✅ 用户说"'全队'听起来怪" → 修这处的同时全文 grep 同义"全员 / 团队"，**只在指出的同类语境**下一并改（不延伸到其他无关段落）
+- ✅ 用户说"chip 不要直译为'芯片'" → 同处改的同时扫"快捷选项 / tag 标签 / 分类 chip"等同源直译位置，**统一术语**
+- ❌ 用户说"hero 段太营销了" → 不要扩散去改 features / why 段（除非用户说"全篇都太营销"）
+- ❌ 用户没指出问题，模型不要主动 sweep "可能其他地方也有问题"
+
+判断方法：用户的具体指点是**"局部精准"还是"语义覆盖"**？前者只改这处；后者扫同义词族但保持改动语境一致。
 
 最后输出 reminder：
 

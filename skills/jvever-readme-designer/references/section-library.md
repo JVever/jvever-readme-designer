@@ -153,6 +153,43 @@ git clone ... && cd ... && make
 </details>
 ```
 
+### 折叠规则（关键 vs 备选）
+
+**硬规则**：折叠 `<details>` **只用于"次要备选路径"**，不能用于"用户必经的关键步骤"。安装是用户最焦虑的时刻，关键步骤被折叠 = 用户错过它就跑了。
+
+判断标准：
+- ✅ 可以折叠：多包管理器并列（pnpm / yarn / bun），多平台备选（Docker / Homebrew / 从源码），高级配置项
+- ❌ **不可折叠**：
+  - **安装受阻处理**（macOS Gatekeeper "已损坏"对话框 / Windows SmartScreen / 平台版本拦截）
+  - **找不到入口的兜底**（菜单栏 app 在带刘海的 MacBook 上图标可能藏在刘海后；GUI 程序装好后哪里点开）
+  - **平台 / 版本特定的失效说明**（"macOS 14 推荐右键打开，但 macOS 15+ 此按钮不出现"）
+
+这些"非主流但用户会踩"的坑必须**直接 inline 展开**——一旦折叠成 `<details>`，用户会以为标题就是全部，错过下面的关键步骤。
+
+**多种处理方式都给出来 + 明确每种失效场景 + 主推最稳的那个**：
+
+```markdown
+## 快速开始
+
+```bash
+brew install {{package}}
+```
+
+### 装好之后的"找不到 / 已损坏" 兜底
+
+如果在 macOS 15+ 看到"已损坏"对话框（不是更温和的"无法验证开发者"）：
+
+**方法 1（推荐 · 任何 macOS 版本都管用）**：
+\```bash
+xattr -cr /Applications/{{App}}.app
+\```
+
+**方法 2（macOS 14 习惯，但 15+ 此按钮通常不出现）**：
+系统设置 → 隐私与安全性 → 仍要打开
+```
+
+> 注：`xattr -cr` 等"低门槛但绕过签名"的命令，需在写入前用 SCAN 检测的目标 OS 版本验证仍生效。命令鲜活是原则 5 的硬规则。
+
 ---
 
 ## §4 Features（推荐）
@@ -410,7 +447,22 @@ Made with [contrib.rocks](https://contrib.rocks).
 
 ---
 
-## §14 Contributing（开源项目必需）
+## §14 Contributing（条件渲染：作者明确愿意接受贡献才出）
+
+> **核心原则（重要）**：开源 ≠ 欢迎贡献。**很多作者只是公开源码，不期望别人来改自己代码**——即使代码是 GPL/MIT。Contributing 段是"调性表态"——一旦写上"PR 欢迎"，整篇 README tone 都跟着变成"欢迎一起搞"，不写则是"我做了个东西放这里给你用"。**默认应当不渲染**，避免硬塞贡献邀请破坏作者气质。
+
+**渲染条件（任一邀请信号满足才出）**：
+
+| 信号 | 来源 |
+|---|---|
+| 仓库根有 `CONTRIBUTING.md` | SCAN 检测 |
+| 仓库根有 `CODE_OF_CONDUCT.md` | SCAN 检测 |
+| `.github/ISSUE_TEMPLATE/` 或 `PULL_REQUEST_TEMPLATE.md` 存在 | SCAN 检测 |
+| 现有 README 含 "PR welcome" / "contributions welcome" / "欢迎贡献" / "欢迎 PR" 字样 | SCAN 文本检测 |
+| commit 数 > 50 + 作者 > 1 | SCAN 推断（多人协作项目） |
+| 用户在追问中明确说"欢迎贡献" / "想要 contributors" | INTERVIEW 客观未知问句 |
+
+**所有信号都缺**且 commit 数 < 30 / 单人维护 / 无 CONTRIBUTING.md → **整段不渲染**。让 README tone 保持"我做了个东西"，不主动邀请贡献。
 
 ```markdown
 ## 参与贡献
@@ -425,6 +477,8 @@ Made with [contrib.rocks](https://contrib.rocks).
 
 加入 [Discord]({{discord}}) 与维护者直接交流。
 ```
+
+> 仅作渲染示例。条件不满足时此段完全消失，不要降级成"如有兴趣可联系"等弱化版本。
 
 ---
 

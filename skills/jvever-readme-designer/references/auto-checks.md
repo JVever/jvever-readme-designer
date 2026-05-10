@@ -103,6 +103,18 @@ DRAFT 完成 → [本文件] 机械检测 → 命中 → 自动修复 / 阻断�
 - 若仓库无 remote（本地仓库）→ 不写绝对 GitHub URL，改用相对路径或占位符 `<owner>/<repo>`
 - 不允许 README 命令里的 clone URL 是不存在或臆造的仓库（这是原则 5"鲜活的硬规则"）
 
+#### B7. install / 首屏命令的包名/版本真实性
+**检测**：README 中的 install 命令（如 `pip install X` / `npm install Y` / `cargo install Z` / `brew install W` / `pip install X==1.2.0`）含具体包名 / 版本号 → 必须基于 SCAN 推断的真实值：
+
+- 包名 ≠ manifest 实际 name（`package.json`/`pyproject.toml`/`Cargo.toml` 中读到的）→ 失败
+- 写死的版本号（如 `pip install xx==1.2.0`）+ 与最新 release / manifest version 不一致 → 失败（除非用户明确说"锁版本"）
+- 命令引用 dmg / 二进制下载链（`Project-0.1.3.dmg`）含具体版本号 + 与最新 release 不同步 → 失败
+
+**修法**：
+- 包名一律从 manifest 读取（不臆造）
+- 版本号能用 shields.io 自动 badge 反映就别写死字面量
+- 必须写死的（dmg 链接 / 锁版本场景）→ 在 image-plan / maintenance reminder 加一条"每次发版同步替换"
+
 ---
 
 ### C. 占位符与模板渲染

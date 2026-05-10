@@ -43,10 +43,12 @@
 - Section 顺序默认骨架：tagline → demo → quickstart → features → docs → 架构 → adopters/testimonials → contributing → license
 - 每段第一句即结论。"Install via npm" 优于 "You can install this by using npm"
 - 也明确"不为谁服务"——在 Why 段或 Features 之后加一段"什么时候不该用"，反而吸引到对的人
+- **避免基线特征当卖点**：features 段只放"目标读者可能不预期、能让他们说'哇还能这样'"的东西。**品类应有的基础功能塞进卖点反而显得没东西可说**——菜单栏 app 把"住菜单栏"列卖点 ≈ 外卖 app 把"可以下单"列卖点。判断方法：把每条 bullet 单独读出，问"如果这条不写，目标读者会不会反过来惊讶（'居然没有？'）"——会的话是基线特征，不会才是真卖点。
 
 **反例锚**：
 - Feature dump：罗列 30 个 feature，没说用户为啥要用
 - 形容词堆砌但 0 证据："fast / modern / scalable / beautiful"——访客瞬间识别为营销噪声
+- 基线特征当卖点：菜单栏时区工具列"🌐 中英双语 / 🏠 安静住在菜单栏"——读者反应"就这？这不是默认就该有的吗"
 
 ---
 
@@ -65,11 +67,21 @@
 6. 前后对比
 7. 客户使用结果（"X 公司用了之后构建从 7 分钟降到 40 秒"）
 
-形容词审查：fast / modern / scalable / beautiful / blazingly / production-ready 这类词出现，必须配证据，否则删掉或改为具体描述。
+形容词审查（典型例，**不是穷举黑名单**——遇到新词按"是否带具体内容支撑"判断）：
+
+- 英文典型："fast / modern / scalable / beautiful / blazingly / production-ready / seamlessly / powerful / intuitive"
+- 中文典型："智能 / 精准 / 强大 / 极速 / 一秒 / 一键 / 完美 / 全面 / 颠覆"
+
+这些词出现，必须配数字 / 链接 / 对比兜底，否则删掉或改为具体描述。**"算法"**也常被滥用——简单的几行 if-judgement 求交集别叫"算法"，是过度包装。
+
+**事实校验纪律（强制）**：每条"X 可以 / 支持 / 自动 Y"声明，DRAFT 写完后**回代码 grep 一次确认行为属实**——不允许仅凭项目印象写产品声明。模型容易抄 sub-agent / SCAN 总结里的描述，把矛盾糅进一句话；READme 一旦印发，错误声明会建错读者心智模型，代价大。
 
 **反例锚**：
 - "0.3 秒启动"配 benchmark 链接 ✓ vs "极快启动" ✗
+- "智能算法精准定位"——"智能"+"精准"+"算法"三连，零信息量
+- "一秒搞定 / 一键开会"——没数据支撑就是夸大
 - 第三方背书型项目伪造引言——**绝不**为了凑信任信号编造 testimonial
+- 写"每位同事工作时段可独立调整"，但代码里 setWorkHours 接受**城市名**为参数（按城市设、不按人）——抄 sub-agent 总结没回代码 verify 的典型事故
 
 ---
 
